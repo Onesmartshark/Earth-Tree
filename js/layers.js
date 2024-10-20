@@ -31,6 +31,13 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        let keep = [];
+        if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
+        if (hasUpgrade("sl", 12) && resettingLayer=="c") keep.push("upgrades")
+        if (hasUpgrade("sl", 12) && resettingLayer=="sl") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
+    },
     layerShown(){return true},
     upgrades: {
         11: {
@@ -68,7 +75,7 @@ addLayer("d", {
             title: "Grass Sprout",
             description: "Triple your grass gain.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("s", 22) && hasUpgrade("d", 11) },
+            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 11) },
         },
         22: {
             title: "Mining Moss",
@@ -119,6 +126,8 @@ addLayer("s", {
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
+        if (hasUpgrade('co', 11)) mult = mult.times(2)
+        if (hasUpgrade('co', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         return mult
     },
@@ -226,14 +235,14 @@ addLayer("sl", {
        
     }},
     color: "#454545",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(50), // Can be a function that takes requirement increases into account
     resource: "slate", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    exponent: 1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -270,14 +279,52 @@ addLayer("sl", {
         4: {
             requirementDescription: "5 Slate",
             done() { return player.sl.points.gte(5) },
-            effectDescription: "Unlock a new layer.",
+            effectDescription: "Unlock coal upgrades.",
+            unlocked() {return player.co.unlocked},
+            
+        },
+        5: {
+            requirementDescription: "6 Slate",
+            done() { return player.sl.points.gte(6) },
+            effectDescription: "Double coal.",
+            unlocked() {return player.co.unlocked},
+        },
+        6: {
+            requirementDescription: "8 Slate",
+            done() { return player.sl.points.gte(8) },
+            effectDescription: "Keep stone & clay on slate.",
+            unlocked() { return hasUpgrade("sl", 21) },
         },
     },
     upgrades: {
         11: {
-            title: "Marbled Grass",
+            title: "Slated Grass",
             description: "Double your grass gain.",
             cost: new Decimal(2),
+        },
+        12: {
+            title: "Stone-Covered Dirt",
+            description: "Dirt upgrades are kept on stone.",
+            cost: new Decimal(3),
+            unlocked() { return hasUpgrade("sl", 11) },
+        },
+        13: {
+            title: "Clay-Covered Dirt",
+            description: "Dirt upgrades are kept on clay.",
+            cost: new Decimal(4),
+            unlocked() { return hasUpgrade("sl", 11) },
+        },
+        14: {
+            title: "Slate-Covered Dirt",
+            description: "Dirt upgrades are kept on slate.",
+            cost: new Decimal(7),
+            unlocked() { return hasUpgrade("sl", 11) },
+        },
+        21: {
+            title: "Slate Pillar",
+            description: "Unlock more milestones.",
+            cost: new Decimal(8),
+            unlocked() { return hasUpgrade("sl", 11) && hasUpgrade("sl", 12) },
         },
     }
 })
@@ -343,7 +390,7 @@ addLayer("co", {
 		points: new Decimal(0),
         
     }},
-    color: "Black",
+    color: "#1c1c1c",
     requires: new Decimal(100), // Can be a function that takes requirement increases into account
     resource: "coal", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
@@ -354,8 +401,8 @@ addLayer("co", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('c', 12)) mult = mult.times(4)
-        if (hasMilestone('sl', 1)) mult = mult.times(2)
+        if (hasUpgrade('co', 12)) mult = mult.times(2)
+        if (hasMilestone('sl', 5)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -365,13 +412,14 @@ addLayer("co", {
     hotkeys: [
         {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.sl.unlocked && hasMilestone("s", 4)},
+    layerShown(){return player.sl.unlocked},
 
     upgrades: {
         11: {
             title: "Boulders",
             description: "Double your stone gain.",
             cost: new Decimal(1),
+            unlocked() { return hasMilestone('sl', 4)}, 
         },
         12: {
             title: "Vein Finder",
@@ -380,8 +428,8 @@ addLayer("co", {
             unlocked() { return hasUpgrade("co", 11)}, 
         },
         13: {
-            title: "Charred",
-            description: "Unlock fire (soon), but 0.5x grass (it got burnt).",
+            title: "Fire-Infused Tools",
+            description: "0.5x Grass, 2x Stone, Unlock glass (soon).",
             cost: new Decimal(10),
             unlocked() { return hasUpgrade("co", 12)}, 
         },
