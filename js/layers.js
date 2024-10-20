@@ -42,12 +42,14 @@ addLayer("d", {
             effect() {
                 return player[this.layer].points.add(1).pow(0.25)
             },
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect        
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect     
+            unlocked() { return hasUpgrade("d", 11) },   
         },
         13: {
-            title: "Grass Plants",
+            title: "Grass Seeds II",
             description: "Double your grass gain.",
             cost: new Decimal(10),
+            unlocked() { return hasUpgrade("d", 12) },
         },
         14: {
             title: "Grass-Covered Dirt",
@@ -57,6 +59,25 @@ addLayer("d", {
                 return player.points.add(1).pow(0.015)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+            unlocked() { return hasUpgrade("d", 13) },
+        },
+        15: {
+            title: "Grass Sapling",
+            description: "Triple your grass gain.",
+            cost: new Decimal(100),
+            unlocked() { return hasUpgrade("s", 16) && hasUpgrade("d", 14) },
+        },
+        16: {
+            title: "Mining Moss",
+            description: "Double your stone gain.",
+            cost: new Decimal(500),
+            unlocked() { return hasUpgrade("d", 15) },
+        },
+        17: {
+            title: "Wet Dirt",
+            description: "soon (dont buy)",
+            cost: new Decimal(1000),
+            unlocked() { return hasUpgrade("d", 16) },
         },
     },
 })
@@ -82,6 +103,7 @@ addLayer("s", {
         mult = new Decimal(1)
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
+        if (hasUpgrade('d', 16)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -121,6 +143,11 @@ addLayer("s", {
             title: "Smooth Dirt",
             description: "Double dirt gain.",
             cost: new Decimal(25),
+        },
+        16: {
+            title: "Dirt*2",
+            description: "Unlock more dirt upgrades",
+            cost: new Decimal(100),
         },
     },
 })
