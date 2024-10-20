@@ -138,6 +138,11 @@ addLayer("s", {
     hotkeys: [
         {key: "s", description: "S: Reset for Stone", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        let keep = [];
+        if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
+    },
     layerShown(){return player.d.unlocked},
     upgrades: {
         11: {
@@ -190,7 +195,7 @@ addLayer("s", {
 addLayer("t", {
     name: "tree", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "T", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -216,7 +221,7 @@ addLayer("t", {
     hotkeys: [
         {key: "t", description: "T: Reset for Trees", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.d.points},
+    layerShown(){return player.sl.unlocked},
     upgrades: {
         11: {
             title: "Tree Seeds",
@@ -260,16 +265,19 @@ addLayer("sl", {
             requirementDescription: "1 Slate",
             done() { return player.sl.points.gte(1) },
             effectDescription: "Double stone.",
+            unlocked() {return player.s.unlocked},
         },
         1: {
             requirementDescription: "2 Slate",
             done() { return player.sl.points.gte(2) },
             effectDescription: "Double clay.",
+            unlocked() {return player.c.unlocked},
         },
         2: {
             requirementDescription: "3 Slate",
             done() { return player.sl.points.gte(3) },
             effectDescription: "Double dirt.",
+            unlocked() {return player.d.unlocked},
         },
         3: {
             requirementDescription: "4 Slate",
@@ -294,6 +302,12 @@ addLayer("sl", {
             done() { return player.sl.points.gte(8) },
             effectDescription: "Keep stone & clay on slate.",
             unlocked() { return hasUpgrade("sl", 21) },
+        },
+        7: {
+            requirementDescription: "9 Slate",
+            done() { return player.sl.points.gte(9) },
+            effectDescription: "Double trees.",
+            unlocked() {return player.t.unlocked},
         },
     },
     upgrades: {
@@ -359,6 +373,11 @@ addLayer("c", {
     hotkeys: [
         {key: "c", description: "C: Reset for Clay", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        let keep = [];
+        if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset("c", keep)
+    },
     layerShown(){return player.d.unlocked},
 
     upgrades: {
