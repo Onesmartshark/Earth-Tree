@@ -92,6 +92,7 @@ addLayer("s", {
         {key: "s", description: "S: Reset for Stone", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return player.d.unlocked},
+    increaseUnlockOrder: ["c"],
     upgrades: {
         11: {
             title: "Stone Plants",
@@ -155,6 +156,7 @@ addLayer("c", {
         {key: "c", description: "C: Reset for Clay", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return player.d.unlocked},
+    increaseUnlockOrder: ["s"],
     upgrades: {
         11: {
             title: "Overgrown Bricks",
