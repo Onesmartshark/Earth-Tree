@@ -295,9 +295,9 @@ addLayer("co", {
     }},
     color: "Gray",
     requires: new Decimal(100), // Can be a function that takes requirement increases into account
-    resource: "clay", // Name of prestige currency
-    baseResource: "dirt", // Name of resource prestige is based on
-    baseAmount() {return player.d.points}, // Get the current amount of baseResource
+    resource: "coal", // Name of prestige currency
+    baseResource: "stone", // Name of resource prestige is based on
+    baseAmount() {return player.s.points}, // Get the current amount of baseResource
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
