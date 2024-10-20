@@ -19,7 +19,7 @@ addLayer("d", {
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
         if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('s', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
-        if (hasUpgrade('s', 15)) mult = mult.times(2)
+        if (hasUpgrade('s', 21)) mult = mult.times(2)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         return mult
     },
@@ -63,17 +63,23 @@ addLayer("d", {
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
             unlocked() { return hasUpgrade("d", 13) },
         },
-        15: {
+        21: {
             title: "Grass Sapling",
             description: "Triple your grass gain.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("s", 16) && hasUpgrade("d", 14) },
+            unlocked() { return hasUpgrade("s", 22) && hasUpgrade("d", 11) },
         },
-        16: {
+        22: {
             title: "Mining Moss",
             description: "Double your stone gain.",
             cost: new Decimal(500),
-            unlocked() { return hasUpgrade("d", 15) },
+            unlocked() { return hasUpgrade("d", 21) },
+        },
+        23: {
+            title: "Gardening",
+            description: "Quadruple your grass gain.",
+            cost: new Decimal(1250),
+            unlocked() { return hasUpgrade("d", 22) },
         },
     },
 })
@@ -99,7 +105,7 @@ addLayer("s", {
         mult = new Decimal(1)
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
-        if (hasUpgrade('d', 16)) mult = mult.times(2)
+        if (hasUpgrade('d', 22)) mult = mult.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         return mult
     },
@@ -139,17 +145,17 @@ addLayer("s", {
             cost: new Decimal(3),
             unlocked() { return hasUpgrade("s", 13) },
         },
-        15: {
+        21: {
             title: "Smooth Dirt",
             description: "Double dirt gain.",
             cost: new Decimal(10),
-            unlocked() { return hasUpgrade("s", 14) },
+            unlocked() { return hasUpgrade("s", 11) },
         },
-        16: {
+        22: {
             title: "Dirt*2",
             description: "Unlock more dirt upgrades",
             cost: new Decimal(25),
-            unlocked() { return hasUpgrade("s", 15) },
+            unlocked() { return hasUpgrade("s", 21) },
         },
     },
 })
