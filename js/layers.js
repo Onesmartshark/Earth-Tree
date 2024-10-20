@@ -293,7 +293,7 @@ addLayer("co", {
 		points: new Decimal(0),
         
     }},
-    color: "Gray",
+    color: "Black",
     requires: new Decimal(100), // Can be a function that takes requirement increases into account
     resource: "coal", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
