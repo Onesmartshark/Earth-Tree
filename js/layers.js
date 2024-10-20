@@ -161,7 +161,7 @@ addLayer("s", {
             title: "Smooth Dirt",
             description: "Double dirt gain.",
             cost: new Decimal(10),
-            unlocked() { return hasUpgrade("s", 11) },
+            unlocked() { return hasUpgrade("s", 14) },
         },
         22: {
             title: "Dirt*2",
@@ -225,7 +225,12 @@ addLayer("sl", {
         4: {
             requirementDescription: "5 Slate",
             done() { return player.sl.points.gte(5) },
-            effectDescription: "Unlock a new layer.",
+            effectDescription: "Unlock coal upgrades.",
+        },
+        5: {
+            requirementDescription: "6 Slate",
+            done() { return player.sl.points.gte(6) },
+            effectDescription: "Double coal.",
         },
     },
     upgrades: {
@@ -320,13 +325,14 @@ addLayer("co", {
     hotkeys: [
         {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.sl.unlocked && hasMilestone("s", 4)},
+    layerShown(){return player.sl.unlocked},
 
     upgrades: {
         11: {
             title: "Boulders",
             description: "Double your stone gain.",
             cost: new Decimal(1),
+            unlocked() { return hasMilestone('sl', 4)}, 
         },
         12: {
             title: "Vein Finder",
