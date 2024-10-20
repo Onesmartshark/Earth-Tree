@@ -31,6 +31,13 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        let keep = [];
+        if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
+        if (hasUpgrade("sl", 12) && resettingLayer=="c") keep.push("upgrades")
+        if (hasUpgrade("sl", 12) && resettingLayer=="sl") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
+    },
     layerShown(){return true},
     upgrades: {
         11: {
@@ -234,18 +241,51 @@ addLayer("sl", {
             requirementDescription: "5 Slate",
             done() { return player.sl.points.gte(5) },
             effectDescription: "Unlock coal upgrades.",
+            unlocked() {return player.co.unlocked},
+            
         },
         5: {
             requirementDescription: "6 Slate",
             done() { return player.sl.points.gte(6) },
             effectDescription: "Double coal.",
+            unlocked() {return player.co.unlocked},
+        },
+        6: {
+            requirementDescription: "8 Slate",
+            done() { return player.sl.points.gte(8) },
+            effectDescription: "Keep stone & clay on slate.",
+            unlocked() { return hasUpgrade("sl", 21) },
         },
     },
     upgrades: {
         11: {
-            title: "Marbled Grass",
+            title: "Slated Grass",
             description: "Double your grass gain.",
             cost: new Decimal(2),
+        },
+        12: {
+            title: "Stone-Covered Dirt",
+            description: "Dirt upgrades are kept on stone.",
+            cost: new Decimal(3),
+            unlocked() { return hasUpgrade("sl", 11) },
+        },
+        13: {
+            title: "Clay-Covered Dirt",
+            description: "Dirt upgrades are kept on clay.",
+            cost: new Decimal(4),
+            unlocked() { return hasUpgrade("sl", 11) },
+        },
+        14: {
+            title: "Slate-Covered Dirt",
+            description: "Dirt upgrades are kept on slate.",
+            cost: new Decimal(7),
+            unlocked() { return hasUpgrade("sl", 11) },
+        },
+        21: {
+            title: "Slate Pillar",
+            description: "Unlock more milestones.",
+            cost: new Decimal(8),
+            unlocked() { return hasUpgrade("sl", 11) && hasUpgrade("sl", 12) },
         },
     }
 })
