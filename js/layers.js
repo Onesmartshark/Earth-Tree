@@ -126,7 +126,8 @@ addLayer("s", {
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
-        if (hasUpgrade('co', 13)) gain = gain.times(2)
+        if (hasUpgrade('co', 11)) mult = mult.times(2)
+        if (hasUpgrade('co', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         return mult
     },
@@ -196,14 +197,14 @@ addLayer("sl", {
        
     }},
     color: "#454545",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(50), // Can be a function that takes requirement increases into account
     resource: "slate", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
+    exponent: 1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
