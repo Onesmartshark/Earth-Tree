@@ -222,6 +222,11 @@ addLayer("sl", {
             done() { return player.sl.points.gte(4) },
             effectDescription: "Double grass.",
         },
+        4: {
+            requirementDescription: "5 Slate",
+            done() { return player.sl.points.gte(5) },
+            effectDescription: "Unlock a new layer.",
+        },
     },
     upgrades: {
         11: {
@@ -315,7 +320,7 @@ addLayer("co", {
     hotkeys: [
         {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.sl.unlocked},
+    layerShown(){return player.sl.unlocked && hasMilestone("s", 4)},
 
     upgrades: {
         11: {
