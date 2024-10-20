@@ -17,8 +17,10 @@ addLayer("d", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
+        if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('d', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
         if (hasUpgrade('s', 15)) mult = mult.times(2)
+        if (hasMilestone('sl', 2)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -98,6 +100,7 @@ addLayer("s", {
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('d', 16)) mult = mult.times(2)
+        if (hasMilestone('sl', 0)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -117,7 +120,7 @@ addLayer("s", {
         12: {
             title: "Buried Dirt",
             description: "Dirt gain is slightly boosted by stone.",
-            cost: new Decimal(2),
+            cost: new Decimal(1),
             effect() {
                 return player[this.layer].points.add(1).pow(0.075)
             },
@@ -127,28 +130,88 @@ addLayer("s", {
         13: {
             title: "Rocky Dirt",
             description: "Double your dirt gain.",
-            cost: new Decimal(3),
+            cost: new Decimal(2),
             unlocked() { return hasUpgrade("s", 12) },
         },
         14: {
             title: "Sharpened Stone",
             description: "Double stone gain.",
-            cost: new Decimal(5),
+            cost: new Decimal(3),
             unlocked() { return hasUpgrade("s", 13) },
         },
         15: {
             title: "Smooth Dirt",
             description: "Double dirt gain.",
-            cost: new Decimal(25),
+            cost: new Decimal(10),
             unlocked() { return hasUpgrade("s", 14) },
         },
         16: {
             title: "Dirt*2",
             description: "Unlock more dirt upgrades",
-            cost: new Decimal(100),
+            cost: new Decimal(25),
             unlocked() { return hasUpgrade("s", 15) },
         },
     },
+})
+addLayer("sl", {
+    name: "Slate", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "Sl", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+       
+    }},
+    color: "#454545",
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    resource: "slate", // Name of prestige currency
+    baseResource: "stone", // Name of resource prestige is based on
+    baseAmount() {return player.s.points}, // Get the current amount of baseResource
+
+    
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "S", description: "S+Shift: Reset for Slate", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return player.s.unlocked},
+    milestones: {
+        0: {
+            requirementDescription: "1 Slate",
+            done() { return player.sl.points.gte(1) },
+            effectDescription: "Double stone.",
+        },
+        1: {
+            requirementDescription: "2 Slate",
+            done() { return player.sl.points.gte(2) },
+            effectDescription: "Double clay.",
+        },
+        2: {
+            requirementDescription: "3 Slate",
+            done() { return player.sl.points.gte(3) },
+            effectDescription: "Double dirt.",
+        },
+        3: {
+            requirementDescription: "4 Slate",
+            done() { return player.sl.points.gte(4) },
+            effectDescription: "Double grass.",
+        },
+    },
+    upgrades: {
+        11: {
+            title: "Marbled Grass",
+            description: "Double your grass gain.",
+            cost: new Decimal(2),
+        },
+    }
 })
 addLayer("c", {
     name: "clay", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -171,6 +234,7 @@ addLayer("c", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('c', 12)) mult = mult.times(4)
+        if (hasMilestone('sl', 1)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -192,11 +256,13 @@ addLayer("c", {
             title: "Clay Block",
             description: "Quadruple your clay gain.",
             cost: new Decimal(3),
+            unlocked() { return hasUpgrade("c", 11)}, 
         },
         13: {
             title: "Claystone",
             description: "Double stone gain.",
             cost: new Decimal(20),
+            unlocked() { return hasUpgrade("c", 12)}, 
         },
     },
 })
