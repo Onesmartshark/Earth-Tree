@@ -90,7 +90,7 @@ addLayer("d", {
         },
         31: {
             title: "Grass Sapling",
-            description: "6x your grass gain.",
+            description: "Sextuple your grass gain.",
             cost: new Decimal(7777),
             unlocked() { return hasUpgrade("d", 24) },
         },
@@ -229,6 +229,11 @@ addLayer("sl", {
             done() { return player.sl.points.gte(4) },
             effectDescription: "Double grass.",
         },
+        4: {
+            requirementDescription: "5 Slate",
+            done() { return player.sl.points.gte(5) },
+            effectDescription: "Unlock a new layer.",
+        },
     },
     upgrades: {
         11: {
@@ -288,6 +293,59 @@ addLayer("c", {
             description: "Double stone gain.",
             cost: new Decimal(20),
             unlocked() { return hasUpgrade("c", 12)}, 
+        },
+    },
+})
+addLayer("co", {
+    name: "coal", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "Co", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "Black",
+    requires: new Decimal(100), // Can be a function that takes requirement increases into account
+    resource: "coal", // Name of prestige currency
+    baseResource: "stone", // Name of resource prestige is based on
+    baseAmount() {return player.s.points}, // Get the current amount of baseResource
+
+    
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        if (hasUpgrade('c', 12)) mult = mult.times(4)
+        if (hasMilestone('sl', 1)) mult = mult.times(2)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 2, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return player.sl.unlocked && hasMilestone("s", 4)},
+
+    upgrades: {
+        11: {
+            title: "Boulders",
+            description: "Double your stone gain.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Vein Finder",
+            description: "Double your coal gain.",
+            cost: new Decimal(3),
+            unlocked() { return hasUpgrade("co", 11)}, 
+        },
+        13: {
+            title: "Charred",
+            description: "Unlock fire (soon), but 0.5x grass (it got burnt).",
+            cost: new Decimal(10),
+            unlocked() { return hasUpgrade("co", 12)}, 
         },
     },
 })
