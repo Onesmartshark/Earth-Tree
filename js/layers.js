@@ -119,6 +119,7 @@ addLayer("s", {
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
+        if (hasUpgrade('co', 13)) gain = gain.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         return mult
     },
@@ -321,8 +322,8 @@ addLayer("co", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('c', 12)) mult = mult.times(4)
-        if (hasMilestone('sl', 1)) mult = mult.times(2)
+        if (hasUpgrade('co', 12)) mult = mult.times(2)
+        if (hasMilestone('sl', 5)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -348,8 +349,8 @@ addLayer("co", {
             unlocked() { return hasUpgrade("co", 11)}, 
         },
         13: {
-            title: "Charred",
-            description: "Unlock fire (soon), but 0.5x grass (it got burnt).",
+            title: "Fire-Infused Tools",
+            description: "0.5x Grass, 2x Stone, Unlock glass (soon).",
             cost: new Decimal(10),
             unlocked() { return hasUpgrade("co", 12)}, 
         },
