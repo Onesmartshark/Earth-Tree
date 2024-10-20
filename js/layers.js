@@ -81,6 +81,12 @@ addLayer("d", {
             cost: new Decimal(1250),
             unlocked() { return hasUpgrade("d", 22) },
         },
+        24: {
+            title: "Shovels",
+            description: "Double your grass gain.",
+            cost: new Decimal(2500),
+            unlocked() { return hasUpgrade("d", 23) },
+        },
     },
 })
 addLayer("s", {
