@@ -73,12 +73,6 @@ addLayer("d", {
             cost: new Decimal(500),
             unlocked() { return hasUpgrade("d", 15) },
         },
-        17: {
-            title: "Wet Dirt",
-            description: "soon (dont buy)",
-            cost: new Decimal(1000),
-            unlocked() { return hasUpgrade("d", 16) },
-        },
     },
 })
 addLayer("s", {
@@ -127,27 +121,32 @@ addLayer("s", {
             effect() {
                 return player[this.layer].points.add(1).pow(0.075)
             },
-            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect        
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect    
+            unlocked() { return hasUpgrade("s", 11) },       
         },
         13: {
             title: "Rocky Dirt",
             description: "Double your dirt gain.",
             cost: new Decimal(3),
+            unlocked() { return hasUpgrade("s", 12) },
         },
         14: {
             title: "Sharpened Stone",
             description: "Double stone gain.",
             cost: new Decimal(5),
+            unlocked() { return hasUpgrade("s", 13) },
         },
         15: {
             title: "Smooth Dirt",
             description: "Double dirt gain.",
             cost: new Decimal(25),
+            unlocked() { return hasUpgrade("s", 14) },
         },
         16: {
             title: "Dirt*2",
             description: "Unlock more dirt upgrades",
             cost: new Decimal(100),
+            unlocked() { return hasUpgrade("s", 15) },
         },
     },
 })
