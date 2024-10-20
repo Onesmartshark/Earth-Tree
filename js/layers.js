@@ -285,7 +285,7 @@ addLayer("sl", {
         21: {
             title: "Slate Pillar",
             description: "Unlock more milestones.",
-            cost: new Decimal(8),
+            cost: new Decimal(7),
             unlocked() { return hasUpgrade("sl", 11) && hasUpgrade("sl", 12) },
         },
     }
