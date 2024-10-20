@@ -64,7 +64,7 @@ addLayer("d", {
             unlocked() { return hasUpgrade("d", 13) },
         },
         21: {
-            title: "Grass Sapling",
+            title: "Grass Sprout",
             description: "Triple your grass gain.",
             cost: new Decimal(100),
             unlocked() { return hasUpgrade("s", 22) && hasUpgrade("d", 11) },
@@ -86,6 +86,12 @@ addLayer("d", {
             description: "Double your grass gain.",
             cost: new Decimal(2500),
             unlocked() { return hasUpgrade("d", 23) },
+        },
+        31: {
+            title: "Grass Sapling",
+            description: "6x your grass gain.",
+            cost: new Decimal(7777),
+            unlocked() { return hasUpgrade("d", 24) },
         },
     },
 })
