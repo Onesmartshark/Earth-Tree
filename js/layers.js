@@ -464,7 +464,7 @@ addLayer("c", {
             title: "Dirty-Clay",
             description: "Triple dirt gain.",
             cost: new Decimal(125),
-            unlocked() { return hasUpgrade("c", 14)}, 
+            unlocked() { return hasUpgrade("c", 15)}, 
         },
         21: {
             title: "Rocky Clay",
