@@ -150,6 +150,7 @@ addLayer("s", {
         if (hasUpgrade('co', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
+        if (hasMilestone('g', 2)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -163,8 +164,7 @@ addLayer("s", {
         let keep = [];
         if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
         if (hasMilestone("g", 1) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="c") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="s") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="co") keep.push("upgrades")
         if (hasMilestone("g", 1) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
     },
@@ -414,6 +414,7 @@ addLayer("c", {
         mult = new Decimal(1)
         if (hasUpgrade('c', 12)) mult = mult.times(4)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
+        if (hasMilestone('g', 2)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -426,6 +427,9 @@ addLayer("c", {
     doReset(resettingLayer) {
         let keep = [];
         if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="co") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="t") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("c", keep)
     },
     layerShown(){return player.d.unlocked},
@@ -584,6 +588,12 @@ addLayer("g", {
             requirementDescription: "2 Glass",
             done() { return player.g.points.gte(2) && player.s.unlocked && player.d.unlocked },
             effectDescription: "Keep dirt & stone upgrades on all previous resets, and finally auto generate dirt.",
+            unlocked() {return player.s.unlocked && player.d.unlocked },
+        },
+        2: {
+            requirementDescription: "3 Glass",
+            done() { return player.g.points.gte(2) && player.s.unlocked && player.d.unlocked },
+            effectDescription: "Keep clay upgrades on all previous resets, and triple stone & clay, while quadrupling grass & dirt, along with double coal.",
             unlocked() {return player.s.unlocked && player.d.unlocked },
         },
     },
