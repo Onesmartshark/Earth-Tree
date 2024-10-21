@@ -255,7 +255,7 @@ addLayer("sl", {
        
     }},
     color: "#454545",
-    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "slate", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
