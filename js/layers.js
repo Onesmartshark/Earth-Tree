@@ -34,8 +34,8 @@ addLayer("d", {
     doReset(resettingLayer) {
         let keep = [];
         if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
-        if (hasUpgrade("sl", 12) && resettingLayer=="c") keep.push("upgrades")
-        if (hasUpgrade("sl", 12) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasUpgrade("sl", 13) && resettingLayer=="c") keep.push("upgrades")
+        if (hasUpgrade("sl", 14) && resettingLayer=="sl") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
     },
     layerShown(){return true},
@@ -98,8 +98,14 @@ addLayer("d", {
         31: {
             title: "Grass Sapling",
             description: "Sextuple your grass gain.",
-            cost: new Decimal(7777),
+            cost: new Decimal(10000),
             unlocked() { return hasUpgrade("d", 24) },
+        },
+        32: {
+            title: "Growing",
+            description: "Unlock trees.",
+            cost: new Decimal(33333),
+            unlocked() { return hasUpgrade("d", 31) },
         },
     },
 })
@@ -224,7 +230,7 @@ addLayer("t", {
     hotkeys: [
         {key: "t", description: "T: Reset for Trees", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.sl.unlocked},
+    layerShown(){return hasUpgrade('g', 32)},
     upgrades: {
         11: {
             title: "Tree Seeds",
@@ -473,5 +479,55 @@ addLayer("co", {
             cost: new Decimal(25),
             unlocked() { return hasUpgrade("co", 13)}, 
         },
+    },
+})
+addLayer("g", {
+    name: "glass", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "G", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "#B3FFFF",
+    requires: new Decimal(1), // Can be a function that takes requirement increases into account
+    resource: "glass", // Name of prestige currency
+    baseResource: "coal", // Name of resource prestige is based on
+    baseAmount() {return player.s.points}, // Get the current amount of baseResource
+
+    
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 10, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        if (hasUpgrade('co', 12)) mult = mult.times(2)
+        if (hasMilestone('sl', 5)) mult = mult.times(2)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return hasUpgrade("co", 13)},
+    milestones: {
+        0: {
+            requirementDescription: "1 Glass",
+            done() { return player.sl.points.gte(1) && player.co.unlocked },
+            effectDescription: "Triple coal.",
+            unlocked() {return player.co.unlocked},
+        },
+        1: {
+            requirementDescription: "2 Glass",
+            done() { return player.sl.points.gte(1) && player.s.unlocked && player.d.unlocked },
+            effectDescription: "Keep dirt & stone upgrades on reset.",
+            unlocked() {return player.s.unlocked && player.d.unlocked },
+        },
+    },
+    upgrades: {
+
     },
 })
