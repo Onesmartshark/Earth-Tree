@@ -80,7 +80,7 @@ addLayer("d", {
             title: "Grass Sprout",
             description: "Triple your grass gain.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 11) },
+            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 14) },
         },
         22: {
             title: "Mining Moss",
