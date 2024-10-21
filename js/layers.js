@@ -31,16 +31,16 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    passiveGeneration() {return (hasMilestone("g", 1))},
+    passiveGeneration() {return (hasMilestone("g", 2))},
     doReset(resettingLayer) {
         let keep = [];
         if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
         if (hasUpgrade("sl", 13) && resettingLayer=="c") keep.push("upgrades")
         if (hasUpgrade("sl", 14) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="c") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="s") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="t") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="c") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="s") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
     },
     layerShown(){return true},
