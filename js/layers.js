@@ -248,7 +248,7 @@ addLayer("t", {
     hotkeys: [
         {key: "t", description: "T: Reset for Trees", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade('d', 32)},
+    layerShown(){return hasUpgrade('d', 32) || player.g.unlocked},
     upgrades: {
         11: {
             title: "Tree Seeds",
@@ -569,8 +569,8 @@ addLayer("g", {
     milestones: {
         0: {
             requirementDescription: "1 Glass",
-            done() { return player.g.points.gte(1) && player.co.unlocked },
-            effectDescription: "Double coal & stone.",
+            done() { return player.g.points.gte(1) && player.co.unlocked || player.g.unlocked },
+            effectDescription: "Double coal & stone. Trees & glass are now permanently visible (this will permanently save, even after the milestone is gone).",
             unlocked() {return player.co.unlocked},
         },
         1: {
