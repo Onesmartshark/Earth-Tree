@@ -140,6 +140,7 @@ addLayer("s", {
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
+        if (hasMilestone('g', 0)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -448,6 +449,7 @@ addLayer("co", {
         mult = new Decimal(1)
         if (hasUpgrade('co', 12)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
+        if (hasMilestone('g', 0)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -474,7 +476,7 @@ addLayer("co", {
         },
         13: {
             title: "Fire-Infused Tools",
-            description: "0.5x Grass, 2x Stone, Unlock glass (soon).",
+            description: "0.5x Grass, 2x Stone, Unlock glass.",
             cost: new Decimal(10),
             unlocked() { return hasUpgrade("co", 12)}, 
         },
