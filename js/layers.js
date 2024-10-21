@@ -213,6 +213,8 @@ addLayer("t", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasMilestone('sl', 7)) mult = mult.times(2)
+        if (hasUpgrade('co', 14)) mult = mult.times(0.5)
+        if (hasMilestone('sl', 9)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -264,19 +266,19 @@ addLayer("sl", {
     milestones: {
         0: {
             requirementDescription: "1 Slate",
-            done() { return player.sl.points.gte(1) },
+            done() { return player.sl.points.gte(1) && player.s.unlocked },
             effectDescription: "Double stone.",
             unlocked() {return player.s.unlocked},
         },
         1: {
             requirementDescription: "2 Slate",
-            done() { return player.sl.points.gte(2) },
+            done() { return player.sl.points.gte(2) && player.c.unlocked },
             effectDescription: "Double clay.",
             unlocked() {return player.c.unlocked},
         },
         2: {
             requirementDescription: "3 Slate",
-            done() { return player.sl.points.gte(3) },
+            done() { return player.sl.points.gte(3) && player.d.unlocked },
             effectDescription: "Double dirt.",
             unlocked() {return player.d.unlocked},
         },
@@ -287,28 +289,40 @@ addLayer("sl", {
         },
         4: {
             requirementDescription: "5 Slate",
-            done() { return player.sl.points.gte(5) },
+            done() { return player.sl.points.gte(5) && player.co.unlocked },
             effectDescription: "Unlock coal upgrades.",
             unlocked() {return player.co.unlocked},
             
         },
         5: {
             requirementDescription: "6 Slate",
-            done() { return player.sl.points.gte(6) },
+            done() { return player.sl.points.gte(6) && player.co.unlocked },
             effectDescription: "Double coal.",
-            unlocked() {return player.co.unlocked},
+            unlocked() {return player.co.unlocked },
         },
         6: {
             requirementDescription: "8 Slate",
-            done() { return player.sl.points.gte(8) },
-            effectDescription: "Keep stone & clay on slate.",
             unlocked() { return hasUpgrade("sl", 21) },
+            done() { return player.sl.points.gte(8) && hasUpgrade("sl", 21) },
+            effectDescription: "Keep stone & clay on slate.",
         },
         7: {
             requirementDescription: "9 Slate",
-            done() { return player.sl.points.gte(9) },
-            effectDescription: "Double trees.",
             unlocked() {return player.t.unlocked},
+            done() { return player.sl.points.gte(9) && player.t.unlocked },
+            effectDescription: "Double trees.",
+        },
+        8: {
+            requirementDescription: "11 Slate",
+            unlocked() {return hasUpgrade("co", 14)},
+            done() { return player.sl.points.gte(11) && hasUpgrade("co", 14) },
+            effectDescription: "Remove the Fire-Infused Tools debuff.",
+        },
+        9: {
+            requirementDescription: "14 Slate",
+            unlocked() {return hasUpgrade("co", 14)},
+            done() { return player.sl.points.gte(14) && hasUpgrade("co", 14)},
+            effectDescription: "RRemove the Pollution debuff.",
         },
     },
     upgrades: {
@@ -452,6 +466,12 @@ addLayer("co", {
             description: "0.5x Grass, 2x Stone, Unlock glass (soon).",
             cost: new Decimal(10),
             unlocked() { return hasUpgrade("co", 12)}, 
+        },
+        14: {
+            title: "Pollution",
+            description: "0.5x Grass, 0.5x Trees, 2x Stone, 2x Coal, Unlock a new slate milestone.",
+            cost: new Decimal(25),
+            unlocked() { return hasUpgrade("co", 13)}, 
         },
     },
 })
