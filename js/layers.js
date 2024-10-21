@@ -576,7 +576,7 @@ addLayer("g", {
     hotkeys: [
         {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade("co", 13) || player.g.unlocked},
+    layerShown(){return hasUpgrade("co", 13) || player.g.unlocked },
     milestones: {
         0: {
             requirementDescription: "1 Glass",
