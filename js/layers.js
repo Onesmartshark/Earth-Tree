@@ -572,11 +572,11 @@ addLayer("g", {
     hotkeys: [
         {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade("co", 13)},
+    layerShown(){return hasUpgrade("co", 13) || player.g.unlocked},
     milestones: {
         0: {
             requirementDescription: "1 Glass",
-            done() { return player.g.points.gte(1) && player.co.unlocked || player.g.unlocked },
+            done() { return player.g.points.gte(1) && player.co.unlocked },
             effectDescription: "Double coal & stone. Trees & glass are now permanently visible (this will permanently save, even after the milestone is gone).",
             unlocked() {return player.co.unlocked},
         },
