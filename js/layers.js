@@ -592,9 +592,9 @@ addLayer("g", {
         },
         2: {
             requirementDescription: "3 Glass",
-            done() { return player.g.points.gte(2) && player.s.unlocked && player.d.unlocked },
+            done() { return player.g.points.gte(3) && player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
             effectDescription: "Keep clay upgrades on all previous resets, and triple stone & clay, while quadrupling grass & dirt, along with double coal.",
-            unlocked() {return player.s.unlocked && player.d.unlocked },
+            unlocked() {return player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
         },
     },
     upgrades: {
