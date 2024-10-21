@@ -58,7 +58,7 @@ addLayer("d", {
                 return player[this.layer].points.add(1).pow(0.25)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect     
-            unlocked() { return hasUpgrade("d", 11) },   
+            unlocked() { return !hasUpgrade("d", 11) },   
         },
         13: {
             title: "Grass Seeds II",
@@ -429,6 +429,18 @@ addLayer("c", {
             cost: new Decimal(20),
             unlocked() { return hasUpgrade("c", 12)}, 
         },
+        14: {
+            title: "Hardened Bricks",
+            description: "Double stone gain.",
+            cost: new Decimal(40),
+            unlocked() { return hasUpgrade("c", 13)}, 
+        },
+        15: {
+            title: "Dirty Bricks",
+            description: "Double dirt gain.",
+            cost: new Decimal(50),
+            unlocked() { return hasUpgrade("c", 13)}, 
+        },
     },
 })
 addLayer("co", {
@@ -502,14 +514,15 @@ addLayer("g", {
         
     }},
     color: "#B3FFFF",
-    requires: new Decimal(100), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "glass", // Name of prestige currency
     baseResource: "coal", // Name of resource prestige is based on
     baseAmount() {return player.co.points}, // Get the current amount of baseResource
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 10, // Prestige currency exponent
+    exponent: 0.5, // Prestige currency exponent
+    base: 10, // Gain
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
