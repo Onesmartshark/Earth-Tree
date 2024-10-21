@@ -31,11 +31,16 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    passiveGeneration() {return (hasMilestone("g", 1))},
     doReset(resettingLayer) {
         let keep = [];
         if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
         if (hasUpgrade("sl", 13) && resettingLayer=="c") keep.push("upgrades")
         if (hasUpgrade("sl", 14) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="c") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="s") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
     },
     layerShown(){return true},
@@ -494,15 +499,13 @@ addLayer("g", {
     requires: new Decimal(1), // Can be a function that takes requirement increases into account
     resource: "glass", // Name of prestige currency
     baseResource: "coal", // Name of resource prestige is based on
-    baseAmount() {return player.s.points}, // Get the current amount of baseResource
+    baseAmount() {return player.co.points}, // Get the current amount of baseResource
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 10, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('co', 12)) mult = mult.times(2)
-        if (hasMilestone('sl', 5)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -510,20 +513,20 @@ addLayer("g", {
     },
     row: 3, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return hasUpgrade("co", 13)},
     milestones: {
         0: {
             requirementDescription: "1 Glass",
-            done() { return player.sl.points.gte(1) && player.co.unlocked },
-            effectDescription: "Triple coal.",
+            done() { return player.g.points.gte(1) && player.co.unlocked },
+            effectDescription: "Double coal & stone.",
             unlocked() {return player.co.unlocked},
         },
         1: {
             requirementDescription: "2 Glass",
-            done() { return player.sl.points.gte(1) && player.s.unlocked && player.d.unlocked },
-            effectDescription: "Keep dirt & stone upgrades on reset.",
+            done() { return player.g.points.gte(2) && player.s.unlocked && player.d.unlocked },
+            effectDescription: "Keep dirt & stone upgrades on reset, and finally auto generate dirt.",
             unlocked() {return player.s.unlocked && player.d.unlocked },
         },
     },
