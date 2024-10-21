@@ -153,6 +153,10 @@ addLayer("s", {
     doReset(resettingLayer) {
         let keep = [];
         if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="c") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="s") keep.push("upgrades")
+        if (hasMilestone("g", 1) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
     },
     layerShown(){return player.d.unlocked},
@@ -255,7 +259,7 @@ addLayer("sl", {
        
     }},
     color: "#454545",
-    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
     resource: "slate", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
@@ -528,7 +532,7 @@ addLayer("g", {
         1: {
             requirementDescription: "2 Glass",
             done() { return player.g.points.gte(2) && player.s.unlocked && player.d.unlocked },
-            effectDescription: "Keep dirt & stone upgrades on reset, and finally auto generate dirt.",
+            effectDescription: "Keep dirt & stone upgrades on all previous resets, and finally auto generate dirt.",
             unlocked() {return player.s.unlocked && player.d.unlocked },
         },
     },
