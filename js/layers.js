@@ -58,7 +58,7 @@ addLayer("d", {
                 return player[this.layer].points.add(1).pow(0.25)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect     
-            unlocked() { return !hasUpgrade("d", 11) },   
+            unlocked() { return hasUpgrade("d", 11) },   
         },
         13: {
             title: "Grass Seeds II",
@@ -112,6 +112,12 @@ addLayer("d", {
             cost: new Decimal(33333),
             unlocked() { return hasUpgrade("d", 31) },
         },
+        33: {
+            title: "Dark Moss",
+            description: "Double coal gain.",
+            cost: new Decimal(100e3),
+            unlocked() { return hasUpgrade("d", 32) && hasMilestone("sl", 8) },
+        },
     },
 })
 addLayer("s", {
@@ -136,6 +142,8 @@ addLayer("s", {
         mult = new Decimal(1)
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
+        if (hasUpgrade('c', 14)) mult = mult.times(2)
+        if (hasUpgrade('c', 21)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
@@ -211,7 +219,7 @@ addLayer("s", {
 addLayer("t", {
     name: "tree", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "T", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -246,6 +254,16 @@ addLayer("t", {
             title: "Tree Seeds",
             description: "Double your grass gain.",
             cost: new Decimal(1),
+        },
+        12: {
+            title: "Growth",
+            description: "Grass gain is boosed by trees.",
+            effect() {
+                return player[this.layer].points.add(1).pow(0.25)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect     
+            cost: new Decimal(2),
+            unlocked() { return hasUpgrade("t", 11) },
         },
     },
 })
@@ -332,13 +350,13 @@ addLayer("sl", {
             requirementDescription: "11 Slate",
             unlocked() {return hasUpgrade("co", 14)},
             done() { return player.sl.points.gte(11) && hasUpgrade("co", 14) },
-            effectDescription: "Remove the Fire-Infused Tools debuff.",
+            effectDescription: "Remove the Fire-Infused Tools debuff, and unlock a new grass upgrade.",
         },
         9: {
             requirementDescription: "14 Slate",
             unlocked() {return hasUpgrade("co", 14)},
             done() { return player.sl.points.gte(14) && hasUpgrade("co", 14)},
-            effectDescription: "RRemove the Pollution debuff.",
+            effectDescription: "Remove the Pollution debuff.",
         },
     },
     upgrades: {
@@ -439,14 +457,26 @@ addLayer("c", {
             title: "Dirty Bricks",
             description: "Double dirt gain.",
             cost: new Decimal(50),
-            unlocked() { return hasUpgrade("c", 13)}, 
+            unlocked() { return hasUpgrade("c", 14)}, 
+        },
+        21: {
+            title: "Rocky Clay",
+            description: "Double stone gain, but disable Charred Clay.",
+            cost: new Decimal(50),
+            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 22)}, 
+        },
+        22: {
+            title: "Charred Clay",
+            description: "Double coal gain, but disable Rocky Clay.",
+            cost: new Decimal(50),
+            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 21)}, 
         },
     },
 })
 addLayer("co", {
     name: "coal", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "Co", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -464,6 +494,7 @@ addLayer("co", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('co', 12)) mult = mult.times(2)
+        if (hasUpgrade('c', 22)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         return mult
