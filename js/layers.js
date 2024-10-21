@@ -236,7 +236,7 @@ addLayer("t", {
     hotkeys: [
         {key: "t", description: "T: Reset for Trees", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade('g', 32)},
+    layerShown(){return hasUpgrade('d', 32)},
     upgrades: {
         11: {
             title: "Tree Seeds",
