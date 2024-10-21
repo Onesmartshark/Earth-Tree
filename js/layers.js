@@ -19,6 +19,7 @@ addLayer("d", {
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
         if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('s', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
+        if (hasUpgrade('c', 23)) mult = mult.times(3)
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
@@ -457,6 +458,12 @@ addLayer("c", {
             title: "Dirty Bricks",
             description: "Double dirt gain.",
             cost: new Decimal(50),
+            unlocked() { return hasUpgrade("c", 14)}, 
+        },
+        23: {
+            title: "Dirty-Clay",
+            description: "Triple dirt gain.",
+            cost: new Decimal(125),
             unlocked() { return hasUpgrade("c", 14)}, 
         },
         21: {
