@@ -24,6 +24,7 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
+        if (hasChallenge('i', 11)) mult = mult.times(5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -153,6 +154,7 @@ addLayer("s", {
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
+        if (hasChallenge('i', 11)) mult = mult.times(4)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -518,6 +520,7 @@ addLayer("co", {
         if (hasUpgrade('c', 23)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 1)) mult = mult.times(2)
+        if (hasChallenge('i', 11)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -652,7 +655,7 @@ addLayer("i", {
     hotkeys: [
         {key: "i", description: "I: Reset for Iron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasMilestone('g', 3)},
+    layerShown(){return hasMilestone('g', 3) || inChallenge('i', 11) || hasChallenge('i', 11)},
 
     upgrades: {
         11: {
@@ -675,9 +678,30 @@ addLayer("i", {
     },
     challenges: {
         11: {
-            name: "Ouch",
-            challengeDescription: "description of ouchie",
-            canComplete: function() {return player.points.gte(100)},
+            name: "Restart I",
+            challengeDescription: "get rid of ur stuffs",
+            goalDescription: "1 Glass",
+            canComplete: function() {return player.g.points.gte(1)},
+            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron is visible as long as this challenge is completed.",
+            onEnter() { 
+                player.points = new Decimal("0"); 
+                player.d.points = new Decimal("0"); 
+                player.d.upgrades = []; 
+                player.s.points = new Decimal("0"); 
+                player.s.upgrades = [];
+                player.c.points = new Decimal("0"); 
+                player.c.upgrades = []; 
+                player.sl.points = new Decimal("0"); 
+                player.sl.upgrades = []; 
+                player.sl.milestones = []; 
+                player.co.points = new Decimal("0"); 
+                player.co.upgrades = [];
+                player.t.points = new Decimal("0"); 
+                player.t.upgrades = []; 
+                player.g.points = new Decimal("0"); 
+                player.g.upgrades = []; 
+                player.g.milestones = []; 
+            },
         },
     }
 })
