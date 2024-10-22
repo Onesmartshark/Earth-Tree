@@ -19,8 +19,9 @@ addLayer("d", {
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
         if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('s', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
-        if (hasUpgrade('c', 21)) mult = mult.times(2)
-        if (hasUpgrade('c', 24)) mult = mult.times(3)
+        if (hasUpgrade('c', 22)) mult = mult.times(2)
+        if (hasUpgrade('c', 13)) mult = mult.times(2)
+        if (hasUpgrade('c', 25)) mult = mult.times(3)
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
@@ -145,9 +146,9 @@ addLayer("s", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('s', 14)) mult = mult.times(2)
-        if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('c', 14)) mult = mult.times(2)
-        if (hasUpgrade('c', 22)) mult = mult.times(2)
+        if (hasUpgrade('c', 21)) mult = mult.times(2)
+        if (hasUpgrade('c', 23)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
@@ -461,40 +462,46 @@ addLayer("c", {
             unlocked() { return hasUpgrade("c", 11)}, 
         },
         13: {
-            title: "Claystone",
-            description: "Double stone gain.",
-            cost: new Decimal(20),
+            title: "Clay Mud",
+            description: "Double dirt gain.",
+            cost: new Decimal(8),
             unlocked() { return hasUpgrade("c", 12)}, 
         },
         14: {
-            title: "Hardened Bricks",
+            title: "Claystone",
             description: "Double stone gain.",
-            cost: new Decimal(40),
+            cost: new Decimal(20),
             unlocked() { return hasUpgrade("c", 13)}, 
         },
         21: {
-            title: "Dirty Bricks I",
-            description: "Double dirt gain.",
-            cost: new Decimal(80),
+            title: "Hardened Bricks",
+            description: "Double stone gain.",
+            cost: new Decimal(40),
             unlocked() { return hasUpgrade("c", 14)}, 
         },
         22: {
+            title: "Dirty Bricks I",
+            description: "Double dirt gain.",
+            cost: new Decimal(80),
+            unlocked() { return hasUpgrade("c", 21)}, 
+        },
+        23: {
             title: "Rocky Clay",
             description: "Double stone gain, but disable Charred Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 22)}, 
+            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 24)}, 
         },
-        23: {
+        24: {
             title: "Charred Clay",
             description: "Double coal gain, but disable Rocky Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 21)}, 
+            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 23)}, 
         },
-        24: {
+        25: {
             title: "Dirty Bricks II",
             description: "Triple dirt gain.",
             cost: new Decimal(250),
-            unlocked() { return hasUpgrade("c", 21) || hasUpgrade("c", 22)}, 
+            unlocked() { return hasUpgrade("c", 23) || hasUpgrade("c", 24)},
         },
     },
 })
@@ -519,7 +526,7 @@ addLayer("co", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('co', 12)) mult = mult.times(2)
-        if (hasUpgrade('c', 23)) mult = mult.times(2)
+        if (hasUpgrade('c', 24)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasChallenge('i', 11)) mult = mult.times(2)
