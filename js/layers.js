@@ -23,7 +23,7 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
-        if (inChallenge('g', 11)) mult = mult.times(0.1)
+        if (inChallenge('g', 11)) mult = mult.times(0.5)
         if (maxedChallenge('g', 11)) mult = mult.times(3)
         return mult
     },
@@ -153,7 +153,7 @@ addLayer("s", {
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
-        if (inChallenge('g', 11)) mult = mult.times(0.1)
+        if (inChallenge('g', 11)) mult = mult.times(0.5)
         if (maxedChallenge('g', 11)) mult = mult.times(3)
         return mult
     },
@@ -244,7 +244,7 @@ addLayer("t", {
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
-        if (inChallenge('g', 11)) mult = mult.times(0.1)
+        if (inChallenge('g', 11)) mult = mult.times(0.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -420,7 +420,7 @@ addLayer("c", {
         if (hasUpgrade('c', 12)) mult = mult.times(4)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
-        if (inChallenge('g', 11)) mult = mult.times(0.1)
+        if (inChallenge('g', 11)) mult = mult.times(0.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -514,7 +514,7 @@ addLayer("co", {
         if (hasUpgrade('c', 22)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
-        if (inChallenge('g', 11)) mult = mult.times(0.1) // ^challengeCompletions(g, id) (add the part later)
+        if (inChallenge('g', 11)) mult = mult.times(0.5) // ^challengeCompletions(g, id) (add the part later)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -607,9 +607,9 @@ addLayer("g", {
     challenges: {
         11: {
             name: "Debuffed",
-            challengeDescription: "/10 every stat below glass except slate. Glass milestones still boost this, meaning they are recommended to obtain.",
+            challengeDescription: "/2 every stat below glass except slate. Glass milestones still boost this, meaning they are recommended to obtain.",
             rewardDescription: "x3 Dirt, Stone, and Clay",
-            canComplete: function() {return player.points.gte(1e5)},
+            canComplete: function() {return player.points.gte(100000)},
             completionLimit: "1",
             unlocked() { return hasMilestone('g', 0) },
             onStart() { 

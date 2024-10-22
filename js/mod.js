@@ -60,7 +60,7 @@ function getPointGen() {
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
-	if (inChallenge('g', 11)) mult = mult.times(0.1)
+	if (inChallenge('g', 11)) mult = mult.times(0.5)
 	if (maxedChallenge('g', 11)) mult = mult.times(3)
 	return gain
 }
