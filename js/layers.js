@@ -245,6 +245,7 @@ addLayer("t", {
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
         if (hasMilestone('g', 3)) mult = mult.times(2)
+        if (hasChallenge('i', 12)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -260,7 +261,7 @@ addLayer("t", {
         if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
     },
-    layerShown(){return hasUpgrade('d', 32) || player.g.unlocked},
+    layerShown(){return hasUpgrade('d', 32) && !inChallenge('i', 12) || player.g.unlocked},
     upgrades: {
         11: {
             title: "Tree Seeds",
@@ -427,6 +428,7 @@ addLayer("c", {
         if (hasUpgrade('c', 12)) mult = mult.times(4)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
+        if (hasChallenge('i', 12)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -444,7 +446,7 @@ addLayer("c", {
         if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("c", keep)
     },
-    layerShown(){return player.d.unlocked},
+    layerShown(){return player.d.unlocked && !inChallenge('i', 12)},
 
     upgrades: {
         11: {
@@ -618,7 +620,7 @@ addLayer("g", {
         4: {
             requirementDescription: "5 Glass",
             done() { return player.g.points.gte(5) && player.sl.unlocked  },
-            effectDescription: "Double slate gain (op).",
+            effectDescription: "do absolutely nothing.",
             unlocked() {return player.sl.unlocked },
         },
     },
@@ -678,12 +680,39 @@ addLayer("i", {
     },
     challenges: {
         11: {
-            name: "Restart I",
-            challengeDescription: "get rid of ur stuffs (including iron)",
-            goalDescription: "1 Glass",
-            canComplete: function() {return player.g.points.gte(1)},
+            name: "Starting",
+            challengeDescription: "Hard reset but only glass and below",
+            goalDescription: "1K Coal",
+            canComplete: function() {return player.c.points.gte(1000)},
             rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed.",
             unlocked() { return hasUpgrade("i", 11) || inChallenge('i', 11) || hasChallenge('i', 11)}, 
+            onEnter() { 
+                player.points = new Decimal("0"); 
+                player.d.points = new Decimal("0"); 
+                player.d.upgrades = []; 
+                player.s.points = new Decimal("0"); 
+                player.s.upgrades = [];
+                player.c.points = new Decimal("0"); 
+                player.c.upgrades = []; 
+                player.sl.points = new Decimal("0"); 
+                player.sl.upgrades = []; 
+                player.sl.milestones = []; 
+                player.co.points = new Decimal("0"); 
+                player.co.upgrades = [];
+                player.t.points = new Decimal("0"); 
+                player.t.upgrades = []; 
+                player.g.points = new Decimal("0"); 
+                player.g.upgrades = []; 
+                player.g.milestones = []; 
+            },
+        },
+        12: {
+            name: "Extraless",
+            challengeDescription: "Effect of starting, but also lose access to clay and trees.",
+            goalDescription: "1K Coal",
+            canComplete: function() {return player.c.points.gte(1000)},
+            rewardDescription: "Triple coal & trees.",
+            unlocked() { return hasChallenge('i', 11)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
                 player.d.points = new Decimal("0"); 
