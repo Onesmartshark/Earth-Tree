@@ -828,7 +828,7 @@ addLayer("a", {
             tooltip: "Reset for iron. Reward: x1.25 Coal",
             image: "",
         },
-        35: {
+        41: {
             name: "Challenger",
             done() { return hasChallenge('i', 12) },
             tooltip: "Complete challenge 2.",
