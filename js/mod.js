@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5.2",
+	num: "1.5.3",
 	name: "Removed Challenge due to errors",
 }
 
