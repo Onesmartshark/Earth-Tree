@@ -19,13 +19,13 @@ addLayer("d", {
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
         if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('s', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
-        if (hasUpgrade('c', 22)) mult = mult.times(2)
-        if (hasUpgrade('c', 13)) mult = mult.times(2)
-        if (hasUpgrade('c', 25)) mult = mult.times(3)
+        if (hasUpgrade('c', 21)) mult = mult.times(2)
+        if (hasUpgrade('c', 24)) mult = mult.times(3)
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasChallenge('i', 11)) mult = mult.times(5)
+            if (hasAchievement('a', 13)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -146,9 +146,9 @@ addLayer("s", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('s', 14)) mult = mult.times(2)
+        if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('c', 14)) mult = mult.times(2)
-        if (hasUpgrade('c', 21)) mult = mult.times(2)
-        if (hasUpgrade('c', 23)) mult = mult.times(2)
+        if (hasUpgrade('c', 22)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
@@ -156,6 +156,7 @@ addLayer("s", {
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasMilestone('g', 1)) mult = mult.times(3)
         if (hasChallenge('i', 11)) mult = mult.times(4)
+        if (hasAchievement('a', 23)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -301,7 +302,6 @@ addLayer("sl", {
     exponent: 1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasMilestone('g', 4)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -429,6 +429,7 @@ addLayer("c", {
         if (hasUpgrade('c', 12)) mult = mult.times(4)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
+            
         if (hasChallenge('i', 12)) mult = mult.times(3)
         return mult
     },
@@ -462,46 +463,40 @@ addLayer("c", {
             unlocked() { return hasUpgrade("c", 11)}, 
         },
         13: {
-            title: "Clay Mud",
-            description: "Double dirt gain.",
-            cost: new Decimal(8),
-            unlocked() { return hasUpgrade("c", 12)}, 
-        },
-        14: {
             title: "Claystone",
             description: "Double stone gain.",
             cost: new Decimal(20),
-            unlocked() { return hasUpgrade("c", 13)}, 
+            unlocked() { return hasUpgrade("c", 12)}, 
         },
-        21: {
+        14: {
             title: "Hardened Bricks",
             description: "Double stone gain.",
             cost: new Decimal(40),
-            unlocked() { return hasUpgrade("c", 14)}, 
+            unlocked() { return hasUpgrade("c", 13)}, 
         },
-        22: {
+        21: {
             title: "Dirty Bricks I",
             description: "Double dirt gain.",
             cost: new Decimal(80),
-            unlocked() { return hasUpgrade("c", 21)}, 
+            unlocked() { return hasUpgrade("c", 14)}, 
         },
-        23: {
+        22: {
             title: "Rocky Clay",
             description: "Double stone gain, but disable Charred Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 24)}, 
+            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 22)}, 
         },
-        24: {
+        23: {
             title: "Charred Clay",
             description: "Double coal gain, but disable Rocky Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 23)}, 
+            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 21)}, 
         },
-        25: {
+        24: {
             title: "Dirty Bricks II",
             description: "Triple dirt gain.",
             cost: new Decimal(250),
-            unlocked() { return hasUpgrade("c", 23) || hasUpgrade("c", 24)},
+            unlocked() { return hasUpgrade("c", 21) || hasUpgrade("c", 22)}, 
         },
     },
 })
@@ -526,10 +521,11 @@ addLayer("co", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('co', 12)) mult = mult.times(2)
-        if (hasUpgrade('c', 24)) mult = mult.times(2)
+        if (hasUpgrade('c', 23)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasChallenge('i', 11)) mult = mult.times(2)
+        if (hasAchievement('a', 34)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -742,3 +738,110 @@ addLayer("i", {
         },
     }
 })
+addLayer("a", {
+    startData() { return {
+        unlocked: true,
+    }},
+    color: "yellow",
+    row: "side",
+    layerShown() {return true}, 
+    tooltip() { // Optional, tooltip displays when the layer is locked
+        return ("Achievements")
+    },
+    achievements: {
+        11: {
+            name: "Growth",
+            done() { return player.d.points.gt(0) },
+            tooltip: "Perform a Dirt reset.",
+            image: "",
+        },
+        12: {
+            name: "Grass Grower",
+            done() { return player.points.gte(1000) },
+            tooltip: "Reach 1,000 Grass.",
+            image: "",
+        },
+        13: {
+            name: "Stonify",
+            done() { return player.s.points.gt(0) },
+            tooltip: "Obtain stone. Reward: 1.25x Dirt",
+            image: "",
+        },
+        14: {
+            name: "Dirt+",
+            done() { return hasUpgrade('d', 21) },
+            tooltip: "Buy Dirt Upgrade 5.",
+            image: "",
+        },
+        21: {
+            name: "Clayify",
+            done() { return player.c.points.gt(0) },
+            tooltip: "Obtain clay.",
+            image: "",
+        },
+        22: {
+            name: "Slated",
+            done() { return player.sl.points.gte(3) },
+            tooltip: "Obtain 3 slate.",
+            image: "",
+        },
+        23: {
+            name: "Blackstone",
+            done() { return player.co.points.gt(0) },
+            tooltip: "Obtain coal. Reward: x1.25 Stone",
+            image: "",
+        },
+        24: {
+            name: "Slate^2",
+            done() { return player.sl.points.gte(9) },
+            tooltip: "Get 9 slate.",
+            image: "",
+        },
+        24: {
+            name: "Wasteland",
+            done() { return hasUpgrade('co', 14) },
+            tooltip: "Buy Polluted.",
+            image: "",
+        },
+        31: {
+            name: "Cooked",
+            done() { return player.g.points.gt(0) },
+            tooltip: "Obtain Glass.",
+            image: "",
+        },
+        32: {
+            name: "Compressed Dirt",
+            done() { return player.d.points.gte(100000) },
+            tooltip: "Obtain 100,000 dirt.",
+            image: "",
+        },
+        33: {
+            name: "Glass Coating",
+            done() { return player.g.points.gte(3) },
+            tooltip: "Obtain 3 glass.",
+            image: "",
+        },
+        34: {
+            name: "Unpurity",
+            done() { return player.i.points.gt(0) },
+            tooltip: "Reset for iron. Reward: x1.25 Coal",
+            image: "",
+        },
+        35: {
+            name: "Challenger",
+            done() { return hasChallenge('i', 12) },
+            tooltip: "Complete challenge 2.",
+            image: "",
+        },
+    },
+    tabFormat: [
+        "blank", 
+        ["display-text", function() { return "Achievements: "+player.a.achievements.length+"/"+(Object.keys(tmp.a.achievements).length-2) }], 
+        "blank", "blank",
+        "achievements",
+    ],
+    update(diff) {	// Added this section to call adjustNotificationTime every tick, to reduce notification timers
+        adjustNotificationTime(diff);
+    },	
+}, 
+)
