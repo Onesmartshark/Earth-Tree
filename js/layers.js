@@ -611,7 +611,7 @@ addLayer("g", {
             rewardDescription: "x3 Dirt, Stone, and Clay",
             canComplete: function() {return player.points.gte(1e5)},
             completionLimit: "1",
-            unlocked() { return player.hasMilestone("g", 0) },
+            unlocked() { return hasMilestone('g', 0) },
             onStart() { 
                 player.d.points = new Decimal("0"); 
                 player.d.upgrades = []; 
