@@ -660,7 +660,7 @@ addLayer("i", {
     upgrades: {
         11: {
             title: "Iron-Covered Slate",
-            description: "Keep slate upgrades on glass & iron.",
+            description: "Keep slate upgrades on glass & iron. Unlock a challenge!",
             cost: new Decimal(1),
         },
         12: {
@@ -679,10 +679,11 @@ addLayer("i", {
     challenges: {
         11: {
             name: "Restart I",
-            challengeDescription: "get rid of ur stuffs",
+            challengeDescription: "get rid of ur stuffs (including iron)",
             goalDescription: "1 Glass",
             canComplete: function() {return player.g.points.gte(1)},
-            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron is visible as long as this challenge is completed.",
+            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed.",
+            unlocked() { return hasUpgrade("i", 11) || inChallenge('i', 11) || hasChallenge('i', 11)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
                 player.d.points = new Decimal("0"); 
