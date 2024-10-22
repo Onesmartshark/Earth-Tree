@@ -811,24 +811,30 @@ addLayer("a", {
             image: "",
         },
         32: {
+            name: "Sprouted",
+            done() { return player.t.points.gt(0) },
+            tooltip: "Reset for trees.",
+            image: "",
+        },
+        33: {
             name: "Compressed Dirt",
             done() { return player.d.points.gte(100000) },
             tooltip: "Obtain 100,000 dirt.",
             image: "",
         },
-        33: {
+        34: {
             name: "Glass Coating",
             done() { return player.g.points.gte(3) },
             tooltip: "Obtain 3 glass.",
             image: "",
         },
-        34: {
+        41: {
             name: "Unpurity",
             done() { return player.i.points.gt(0) },
             tooltip: "Reset for iron. Reward: x1.25 Coal",
             image: "",
         },
-        41: {
+        42: {
             name: "Challenger",
             done() { return hasChallenge('i', 12) },
             tooltip: "Complete challenge 2.",
