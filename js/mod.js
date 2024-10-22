@@ -8,13 +8,13 @@ let modInfo = {
 	discordName: "",
 	discordLink: "",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
-	offlineLimit: 1e308,  // In hours
+	offlineLimit: 0,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5.4",
-	name: "Glass MS 4 & 5",
+	num: "1.5.5",
+	name: "Glass Fixes + Offline Removal",
 }
 
 let changelog = `<h1>Changelog:</h1><br>

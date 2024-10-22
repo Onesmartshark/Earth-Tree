@@ -601,13 +601,13 @@ addLayer("g", {
         },
         3: {
             requirementDescription: "4 Glass",
-            done() { return player.g.points.gte(5) && player.t.unlocked},
+            done() { return player.g.points.gte(4) && player.t.unlocked},
             effectDescription: "Quadruple grass, double trees (yes this is basically slate 11 & 14). Unlock iron (soon).",
             unlocked() {return player.t.unlocked },
         },
         4: {
             requirementDescription: "5 Glass",
-            done() { return player.g.points.gte(7) && player.sl.unlocked  },
+            done() { return player.g.points.gte(5) && player.sl.unlocked  },
             effectDescription: "Double slate gain (op).",
             unlocked() {return player.sl.unlocked },
         },
