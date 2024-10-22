@@ -241,6 +241,7 @@ addLayer("t", {
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
+        if (hasMilestone('g', 3)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -289,6 +290,7 @@ addLayer("sl", {
     exponent: 1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasMilestone('g', 4)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -596,6 +598,24 @@ addLayer("g", {
             done() { return player.g.points.gte(3) && player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
             effectDescription: "Keep clay upgrades on all previous resets, and triple stone & clay, while quadrupling grass & dirt, along with double coal.",
             unlocked() {return player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
+        },
+        3: {
+            requirementDescription: "5 Glass",
+            done() { return player.g.points.gte(5) && player.t.unlocked},
+            effectDescription: "Quadruple grass, double trees (yes this is basically slate 11 & 14).",
+            unlocked() {return player.t.unlocked },
+        },
+        4: {
+            requirementDescription: "7 Glass",
+            done() { return player.g.points.gte(7) && player.sl.unlocked  },
+            effectDescription: "Double slate gain (op).",
+            unlocked() {return player.sl.unlocked },
+        },
+        4: {
+            requirementDescription: "10 Glass",
+            done() { return player.g.points.gte(7) && player.g.unlocked  },
+            effectDescription: "Unlock iron (soon).",
+            unlocked() {return player.g.unlocked },
         },
     },
     upgrades: {

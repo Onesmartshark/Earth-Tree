@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5.3",
-	name: "Fixed Glass MS 2",
+	num: "1.5.4",
+	name: "Glass MS 4 & 5",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -60,8 +60,7 @@ function getPointGen() {
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
-	//if (inChallenge('g', 11)) mult = mult.times(0.5)
-	//if (maxedChallenge('g', 11)) mult = mult.times(3)
+	if (hasMilestone('g', 3)) mult = mult.times(4)
 	return gain
 }
 
