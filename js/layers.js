@@ -485,19 +485,19 @@ addLayer("c", {
             title: "Rocky Clay",
             description: "Double stone gain, but disable Charred Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 22)}, 
+            unlocked() { return hasUpgrade("c", 21) && !hasUpgrade("c", 22)}, 
         },
         23: {
             title: "Charred Clay",
             description: "Double coal gain, but disable Rocky Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 21)}, 
+            unlocked() { return hasUpgrade("c", 21) && !hasUpgrade("c", 23)}, 
         },
         24: {
             title: "Dirty Bricks II",
             description: "Triple dirt gain.",
             cost: new Decimal(250),
-            unlocked() { return hasUpgrade("c", 21) || hasUpgrade("c", 22)}, 
+            unlocked() { return hasUpgrade("c", 22) || hasUpgrade("c", 23)}, 
         },
     },
 })
