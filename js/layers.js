@@ -32,7 +32,7 @@ addLayer("d", {
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    passiveGeneration() {return (hasMilestone("g", 2))},
+    passiveGeneration() {return (hasMilestone("g", 1))},
     doReset(resettingLayer) {
         let keep = [];
         if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
