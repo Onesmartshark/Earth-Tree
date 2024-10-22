@@ -673,4 +673,11 @@ addLayer("i", {
             unlocked() { return hasUpgrade("i", 12)}, 
         },
     },
+    challenges: {
+        11: {
+            name: "Ouch",
+            challengeDescription: "description of ouchie",
+            canComplete: function() {return player.points.gte(100)},
+        },
+    }
 })
