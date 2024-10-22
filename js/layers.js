@@ -687,7 +687,7 @@ addLayer("i", {
             name: "Starting",
             challengeDescription: "Hard reset but only glass and below",
             goalDescription: "20 Coal",
-            canComplete: function() {return player.c.points.gte(20)},
+            canComplete: function() {return player.co.points.gte(20)},
             rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed.",
             unlocked() { return hasUpgrade("i", 11) || inChallenge('i', 11) || hasChallenge('i', 11)}, 
             onEnter() { 
@@ -714,8 +714,8 @@ addLayer("i", {
             name: "Extraless",
             challengeDescription: "Effect of starting, but also lose access to clay and trees.",
             goalDescription: "20 Coal",
-            canComplete: function() {return player.c.points.gte(20)},
-            rewardDescription: "Triple coal & trees.",
+            canComplete: function() {return player.co.points.gte(20)},
+            rewardDescription: "Triple clay & trees.",
             unlocked() { return hasChallenge('i', 11)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
