@@ -23,8 +23,6 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
-        if (inChallenge('g', 11)) mult = mult.times(0.5)
-        if (maxedChallenge('g', 11)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -153,8 +151,6 @@ addLayer("s", {
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
-        if (inChallenge('g', 11)) mult = mult.times(0.5)
-        if (maxedChallenge('g', 11)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -244,7 +240,6 @@ addLayer("t", {
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
-        if (inChallenge('g', 11)) mult = mult.times(0.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -420,7 +415,6 @@ addLayer("c", {
         if (hasUpgrade('c', 12)) mult = mult.times(4)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
-        if (inChallenge('g', 11)) mult = mult.times(0.5)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -514,7 +508,6 @@ addLayer("co", {
         if (hasUpgrade('c', 22)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
-        if (inChallenge('g', 11)) mult = mult.times(0.5) // ^challengeCompletions(g, id) (add the part later)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -588,7 +581,7 @@ addLayer("g", {
         0: {
             requirementDescription: "1 Glass",
             done() { return player.g.points.gte(1) && player.co.unlocked },
-            effectDescription: "Double coal & stone. Trees & glass are now permanently visible (this will permanently save, even after the milestone is gone). Unlock a challengel",
+            effectDescription: "Double coal & stone. Trees & glass are now permanently visible (this will permanently save, even after the milestone is gone).",
             unlocked() {return player.co.unlocked},
         },
         1: {
@@ -604,29 +597,7 @@ addLayer("g", {
             unlocked() {return player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
         },
     },
-    challenges: {
-        11: {
-            name: "Debuffed",
-            challengeDescription: "/2 every stat below glass except slate. Glass milestones still boost this, meaning they are recommended to obtain.",
-            rewardDescription: "x3 Dirt, Stone, and Clay",
-            canComplete: function() {return player.points.gte(100000)},
-            completionLimit: "1",
-            unlocked() { return hasMilestone('g', 0) },
-            onStart() { 
-                player.d.points = new Decimal("0"); 
-                player.d.upgrades = []; 
-                player.s.points = new Decimal("0"); 
-                player.s.upgrades = [];
-                player.c.points = new Decimal("0"); 
-                player.c.upgrades = []; 
-                player.sl.points = new Decimal("0"); 
-                player.sl.upgrades = [];
-                player.sl.milestones = [];
-                player.co.points = new Decimal("0"); 
-                player.co.upgrades = []; 
-                player.t.points = new Decimal("0"); 
-                player.t.upgrades = [];
-            },
-        },
+    upgrades: {
+
     },
 })
