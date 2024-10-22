@@ -607,10 +607,11 @@ addLayer("g", {
         },
         4: {
             requirementDescription: "7 Glass",
-            done() { return player.g.points.gte(7)  },
+            done() { return player.g.points.gte(7) && player.sl.unlocked  },
             effectDescription: "Double slate gain (op).",
+            unlocked() {return player.sl.unlocked },
         },
-        4: {
+        5: {
             requirementDescription: "10 Glass",
             done() { return player.g.points.gte(7) && player.g.unlocked  },
             effectDescription: "Unlock iron (soon).",
