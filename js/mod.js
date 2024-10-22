@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.7",
-	name: "Achivements!",
+	num: "1.7.1",
+	name: "Very small fix",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -60,6 +60,7 @@ function getPointGen() {
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
+	if (hasMilestone('g', 2)) mult = mult.times(4)
 	if (hasMilestone('g', 3)) mult = mult.times(4)
 	return gain
 }

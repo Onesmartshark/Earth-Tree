@@ -24,6 +24,7 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
+        if (hasMilestone('g', 2)) mult = mult.times(4)
         if (hasChallenge('i', 11)) mult = mult.times(5)
             if (hasAchievement('a', 13)) mult = mult.times(1.25)
         return mult
