@@ -19,7 +19,8 @@ addLayer("d", {
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
         if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('s', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
-        if (hasUpgrade('c', 23)) mult = mult.times(3)
+        if (hasUpgrade('c', 21)) mult = mult.times(2)
+        if (hasUpgrade('c', 24)) mult = mult.times(3)
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
@@ -145,7 +146,7 @@ addLayer("s", {
         if (hasUpgrade('s', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('c', 14)) mult = mult.times(2)
-        if (hasUpgrade('c', 21)) mult = mult.times(2)
+        if (hasUpgrade('c', 22)) mult = mult.times(2)
         if (hasUpgrade('d', 22)) mult = mult.times(2)
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
@@ -251,6 +252,12 @@ addLayer("t", {
     hotkeys: [
         {key: "t", description: "T: Reset for Trees", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        let keep = [];
+        if (hasUpgrade('i', 11) && resettingLayer=="g") keep.push("upgrades")
+        if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
+    },
     layerShown(){return hasUpgrade('d', 32) || player.g.unlocked},
     upgrades: {
         11: {
@@ -342,7 +349,7 @@ addLayer("sl", {
             requirementDescription: "8 Slate",
             unlocked() { return hasUpgrade("sl", 21) },
             done() { return player.sl.points.gte(8) && hasUpgrade("sl", 21) },
-            effectDescription: "Keep stone & clay on slate.",
+            effectDescription: "Keep stone & clay upgrades on slate.",
         },
         7: {
             requirementDescription: "9 Slate",
@@ -461,28 +468,28 @@ addLayer("c", {
             cost: new Decimal(40),
             unlocked() { return hasUpgrade("c", 13)}, 
         },
-        15: {
+        21: {
             title: "Dirty Bricks I",
             description: "Double dirt gain.",
-            cost: new Decimal(50),
+            cost: new Decimal(80),
             unlocked() { return hasUpgrade("c", 14)}, 
         },
-        21: {
+        22: {
             title: "Rocky Clay",
             description: "Double stone gain, but disable Charred Clay.",
-            cost: new Decimal(50),
+            cost: new Decimal(100),
             unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 22)}, 
         },
-        22: {
+        23: {
             title: "Charred Clay",
             description: "Double coal gain, but disable Rocky Clay.",
-            cost: new Decimal(50),
+            cost: new Decimal(100),
             unlocked() { return hasUpgrade("c", 15) && !hasUpgrade("c", 21)}, 
         },
-        23: {
+        24: {
             title: "Dirty Bricks II",
             description: "Triple dirt gain.",
-            cost: new Decimal(125),
+            cost: new Decimal(250),
             unlocked() { return hasUpgrade("c", 21) || hasUpgrade("c", 22)}, 
         },
     },
@@ -508,7 +515,7 @@ addLayer("co", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('co', 12)) mult = mult.times(2)
-        if (hasUpgrade('c', 22)) mult = mult.times(2)
+        if (hasUpgrade('c', 23)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         return mult
@@ -614,5 +621,56 @@ addLayer("g", {
     },
     upgrades: {
 
+    },
+})
+addLayer("i", {
+    name: "iron", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "I", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "#999999",
+    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    resource: "iron", // Name of prestige currency
+    baseResource: "coal", // Name of resource prestige is based on
+    baseAmount() {return player.co.points}, // Get the current amount of baseResource
+
+    
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "i", description: "I: Reset for Iron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return hasMilestone('g', 3)},
+
+    upgrades: {
+        11: {
+            title: "Iron-Covered Slate",
+            description: "Keep slate upgrades on glass & iron.",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Stone*2",
+            description: "Unlock more stone upgrades (SOON).",
+            cost: new Decimal(3),
+            unlocked() { return hasUpgrade("i", 11)}, 
+        },
+        13: {
+            title: "Metal Sprinkler",
+            description: "Quadruple grass, double trees (SOON).",
+            cost: new Decimal(10),
+            unlocked() { return hasUpgrade("i", 12)}, 
+        },
     },
 })
