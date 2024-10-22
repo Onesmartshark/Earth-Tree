@@ -40,6 +40,7 @@ addLayer("d", {
         if (hasUpgrade("sl", 14) && resettingLayer=="sl") keep.push("upgrades")
         if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
         if (hasMilestone("g", 2) && resettingLayer=="c") keep.push("upgrades")
+        if (hasMilestone("g", 2) && resettingLayer=="co") keep.push("upgrades")
         if (hasMilestone("g", 2) && resettingLayer=="s") keep.push("upgrades")
         if (hasMilestone("g", 2) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
