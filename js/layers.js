@@ -633,7 +633,7 @@ addLayer("i", {
         
     }},
     color: "#999999",
-    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
     resource: "iron", // Name of prestige currency
     baseResource: "coal", // Name of resource prestige is based on
     baseAmount() {return player.co.points}, // Get the current amount of baseResource
