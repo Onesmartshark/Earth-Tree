@@ -485,13 +485,13 @@ addLayer("c", {
             title: "Rocky Clay",
             description: "Double stone gain, but disable Charred Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 21) && !hasUpgrade("c", 22)}, 
+            unlocked() { return hasUpgrade("c", 21) && !hasUpgrade("c", 23)}, 
         },
         23: {
             title: "Charred Clay",
             description: "Double coal gain, but disable Rocky Clay.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("c", 21) && !hasUpgrade("c", 23)}, 
+            unlocked() { return hasUpgrade("c", 21) && !hasUpgrade("c", 22)}, 
         },
         24: {
             title: "Dirty Bricks II",
@@ -798,43 +798,43 @@ addLayer("a", {
             tooltip: "Get 9 slate.",
             image: "",
         },
-        24: {
+        31: {
             name: "Wasteland",
             done() { return hasUpgrade('co', 14) },
             tooltip: "Buy Polluted.",
             image: "",
         },
-        31: {
+        32: {
             name: "Cooked",
             done() { return player.g.points.gt(0) },
             tooltip: "Obtain Glass.",
             image: "",
         },
-        32: {
+        33: {
             name: "Sprouted",
             done() { return player.t.points.gt(0) },
             tooltip: "Reset for trees.",
             image: "",
         },
-        33: {
+        34: {
             name: "Compressed Dirt",
             done() { return player.d.points.gte(100000) },
             tooltip: "Obtain 100,000 dirt.",
             image: "",
         },
-        34: {
+        41: {
             name: "Glass Coating",
             done() { return player.g.points.gte(3) },
             tooltip: "Obtain 3 glass.",
             image: "",
         },
-        41: {
+        42: {
             name: "Unpurity",
             done() { return player.i.points.gt(0) },
             tooltip: "Reset for iron. Reward: x1.25 Coal",
             image: "",
         },
-        42: {
+        43: {
             name: "Challenger",
             done() { return hasChallenge('i', 12) },
             tooltip: "Complete challenge 2.",
