@@ -510,7 +510,7 @@ addLayer("co", {
         if (hasUpgrade('co', 12)) mult = mult.times(2)
         if (hasUpgrade('c', 22)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
-        if (hasMilestone('g', 1)) mult = mult.times(2)
+        if (hasMilestone('g', 0)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
