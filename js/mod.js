@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5",
-	name: "Clay+",
+	num: "1.5.2",
+	name: "Removed Challenge due to errors",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -60,8 +60,8 @@ function getPointGen() {
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
-	if (inChallenge('g', 11)) mult = mult.times(0.5)
-	if (maxedChallenge('g', 11)) mult = mult.times(3)
+	//if (inChallenge('g', 11)) mult = mult.times(0.5)
+	//if (maxedChallenge('g', 11)) mult = mult.times(3)
 	return gain
 }
 
