@@ -675,5 +675,15 @@ addLayer("i", {
             unlocked() { return hasUpgrade("i", 12)}, 
         },
     },
+<<<<<<< HEAD
 >>>>>>> 8697130ce089bab8a891a7ccec31e3203fd96cd8
+=======
+    challenges: {
+        11: {
+            name: "Ouch",
+            challengeDescription: "description of ouchie",
+            canComplete: function() {return player.points.gte(100)},
+        },
+    }
+>>>>>>> 22ac3ab367e4b96b3fdf4cf458382fc2cf36a000
 })
