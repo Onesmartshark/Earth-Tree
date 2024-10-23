@@ -629,6 +629,10 @@ addLayer("g", {
     hotkeys: [
         {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        player.sl.milestones = []; 
+        if (layers[resettingLayer].row > this.row) layerDataReset("g", keep)
+    },
     layerShown(){return hasUpgrade("co", 13) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 21) },
     milestones: {
         0: {
@@ -692,6 +696,10 @@ addLayer("i", {
     hotkeys: [
         {key: "i", description: "I: Reset for Iron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    doReset(resettingLayer) {
+        player.sl.milestones = []; 
+        if (layers[resettingLayer].row > this.row) layerDataReset("i", keep)
+    },
     layerShown(){return hasMilestone('g', 3) || inChallenge('i', 11) || hasChallenge('i', 11)},
 
     upgrades: {
