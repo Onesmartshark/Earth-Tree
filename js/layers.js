@@ -276,7 +276,7 @@ addLayer("t", {
         let keep = [];
         if (hasUpgrade('i', 11) && resettingLayer=="g") keep.push("upgrades")
         if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
-        if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
+        if (layers[resettingLayer].row > this.row) layerDataReset("t", keep)
     },
     layerShown(){return hasUpgrade('d', 32) && !inChallenge('i', 12) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 12) && !inChallenge('i', 21)},
     upgrades: {
@@ -330,7 +330,7 @@ addLayer("sl", {
         let keep = [];
         if (hasUpgrade('i', 11) && resettingLayer=="g") keep.push("upgrades")
         if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
-        if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
+        if (layers[resettingLayer].row > this.row) layerDataReset("sl", keep)
     },
     layerShown(){return player.s.unlocked && !inChallenge('i', 21)},
     milestones: {
