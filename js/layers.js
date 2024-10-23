@@ -771,7 +771,7 @@ addLayer("b", {
         return new Decimal(1)
     },
     row: "side", // Row the layer is in on the tree (0 is the first row)
-    layerShown(){return hasChallenge('i', 12)},
+    layerShown(){return player.points.gte(1) || player.b.unlocked},
 
     upgrades: {
         11: {
