@@ -481,7 +481,7 @@ addLayer("c", {
         if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("c", keep)
     },
-    layerShown(){return player.d.unlocked && !inChallenge('i', 12) && !inChallenge('i', 21)},
+    layerShown(){return player.d.unlocked && !inChallenge('i', 12)},
 
     upgrades: {
         11: {
@@ -771,8 +771,8 @@ addLayer("i", {
         21: {
             name: "Dissapearence",
             challengeDescription: "Extraless cranked to 11. Lose access to row 3+.",
-            goalDescription: "100 Stone",
-            canComplete: function() {return player.s.points.gte(100)},
+            goalDescription: "1,000 Stone",
+            canComplete: function() {return player.s.points.gte(1000)},
             rewardDescription: "Unlock a new layer and iron upgrade (will work soon).",
             unlocked() { return hasChallenge('i', 12)}, 
             onEnter() { 
