@@ -706,7 +706,7 @@ addLayer("i", {
         },
         12: {
             name: "Extraless",
-            challengeDescription: "Effect of starting, but also lose access to clay and trees. Unlock the first layer choice (hint: check below achivements).",
+            challengeDescription: "Effect of starting, but also lose access to clay and trees. Unlock the first permanent choice (hint: check below achivements).",
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte(20)},
             rewardDescription: "Triple clay & trees.",
@@ -745,10 +745,71 @@ addLayer("i", {
         },
     }
 })
+addLayer("b", {
+    name: "bonus", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "B", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "green",
+    requires: new Decimal("1"), // Can be a function that takes requirement increases into account
+    resource: "bonuses", // Name of prestige currency
+    baseResource: "grass", // Name of resource prestige is based on
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+
+    
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 2, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: "side", // Row the layer is in on the tree (0 is the first row)
+    layerShown(){return hasChallenge('i', 12)},
+
+    upgrades: {
+        11: {
+            title: "Bonus #1",
+            description: "Double dirt gain.",
+            cost: new Decimal(3),
+        },
+        12: {
+            title: "Bonus #2",
+            description: "Double stone gain.",
+            cost: new Decimal(5),
+        },
+        13: {
+            title: "Bonus #3",
+            description: "Double clay gain.",
+            cost: new Decimal(8),
+        },
+        14: {
+            title: "Bonus #4",
+            description: "Double coal gain.",
+            cost: new Decimal(14),
+        },
+        21: {
+            title: "Bonus #5",
+            description: "Double tree gain.",
+            cost: new Decimal(17),
+        },
+        22: {
+            title: "Bonus #6",
+            description: "Double iron gain.",
+            cost: new Decimal(24),
+        },
+    },
+})
 addLayer("ch", {
     name: "choice", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "C", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -762,7 +823,7 @@ addLayer("ch", {
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 10000000000000000000, // Prestige currency exponent
+    exponent: 2, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -775,14 +836,14 @@ addLayer("ch", {
 
     upgrades: {
         11: {
-            title: "Pick steel",
-            description: "Unlock steel for a longer grind, but extra bonuses.",
+            title: "Iron",
+            description: "Double iron gain.",
             cost: new Decimal(0),
             unlocked() { return hasChallenge("i", 12) && !hasUpgrade("ch", 12)}, 
         },
         12: {
-            title: "Pick gold",
-            description: "Skip steel, but lose the bonuses PERMANENTLY.",
+            title: "Coal",
+            description: "Quadruple coal gain.",
             cost: new Decimal(0),
             unlocked() { return hasChallenge("i", 12) && !hasUpgrade("ch", 11)}, 
         },
@@ -884,9 +945,9 @@ addLayer("a", {
             image: "",
         },
         43: {
-            name: "Challenger",
+            name: "Choosing",
             done() { return hasChallenge('i', 12) },
-            tooltip: "Complete challenge 2.",
+            tooltip: "Unlock permanent choices.",
             image: "",
         },
     },
