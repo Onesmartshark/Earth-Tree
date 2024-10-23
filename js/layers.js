@@ -147,6 +147,7 @@ addLayer("s", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('s', 14)) mult = mult.times(2)
+        if (hasUpgrade('s', 31)) mult = mult.times(3)
         if (hasUpgrade('c', 13)) mult = mult.times(2)
         if (hasUpgrade('c', 14)) mult = mult.times(2)
         if (hasUpgrade('c', 22)) mult = mult.times(2)
@@ -154,6 +155,7 @@ addLayer("s", {
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
+        if (hasMilestone('sl', 11)) mult = mult.times(3)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasMilestone('g', 1)) mult = mult.times(3)
         if (hasChallenge('i', 11)) mult = mult.times(4)
@@ -222,6 +224,18 @@ addLayer("s", {
             cost: new Decimal(25),
             unlocked() { return hasUpgrade("s", 22) },
         },
+        24: {
+            title: "Blackstone",
+            description: "Double coal.",
+            cost: new Decimal(1000),
+            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("i",13) },
+        },
+        31: {
+            title: "Bigger boulders",
+            description: "Triple stone.",
+            cost: new Decimal(5000),
+            unlocked() { return hasUpgrade("s", 24) && hasUpgrade("i",13) && hasUpgrade("co",11) },
+        },
     },
 })
 addLayer("t", {
@@ -264,7 +278,7 @@ addLayer("t", {
         if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
     },
-    layerShown(){return hasUpgrade('d', 32) && !inChallenge('i', 12) || player.g.unlocked},
+    layerShown(){return hasUpgrade('d', 32) && !inChallenge('i', 12) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 12) && !inChallenge('i', 21)},
     upgrades: {
         11: {
             title: "Tree Seeds",
@@ -312,7 +326,13 @@ addLayer("sl", {
     hotkeys: [
         {key: "S", description: "S+Shift: Reset for Slate", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.s.unlocked},
+    doReset(resettingLayer) {
+        let keep = [];
+        if (hasUpgrade('i', 11) && resettingLayer=="g") keep.push("upgrades")
+        if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
+        if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
+    },
+    layerShown(){return player.s.unlocked && !inChallenge('i', 21)},
     milestones: {
         0: {
             requirementDescription: "1 Slate",
@@ -374,6 +394,18 @@ addLayer("sl", {
             done() { return player.sl.points.gte(14) && hasUpgrade("co", 14)},
             effectDescription: "Remove the Pollution debuff.",
         },
+        10: {
+            requirementDescription: "16 Slate",
+            unlocked() {return hasUpgrade("sl", 21)},
+            done() { return player.sl.points.gte(16) && hasUpgrade("sl", 21)},
+            effectDescription: "Double stone, double coal.",
+        },
+        11: {
+            requirementDescription: "20 Slate",
+            unlocked() {return hasUpgrade("sl", 21)},
+            done() { return player.sl.points.gte(20) && hasUpgrade("sl", 21)},
+            effectDescription: "Triple dirt & grass.",
+        },
     },
     upgrades: {
         11: {
@@ -401,7 +433,7 @@ addLayer("sl", {
         },
         21: {
             title: "Slate Pillar",
-            description: "Unlock more milestones.",
+            description: "Unlock 3 more milestones.",
             cost: new Decimal(7),
             unlocked() { return hasUpgrade("sl", 11) && hasUpgrade("sl", 12) },
         },
@@ -449,7 +481,7 @@ addLayer("c", {
         if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("c", keep)
     },
-    layerShown(){return player.d.unlocked && !inChallenge('i', 12)},
+    layerShown(){return player.d.unlocked && !inChallenge('i', 12) && !inChallenge('i', 21)},
 
     upgrades: {
         11: {
@@ -523,7 +555,9 @@ addLayer("co", {
         mult = new Decimal(1)
         if (hasUpgrade('co', 12)) mult = mult.times(2)
         if (hasUpgrade('c', 23)) mult = mult.times(2)
+        if (hasUpgrade('s', 24)) mult = mult.times(2)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
+        if (hasMilestone('sl', 10)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasChallenge('i', 11)) mult = mult.times(2)
         if (hasAchievement('a', 34)) mult = mult.times(1.25)
@@ -536,7 +570,7 @@ addLayer("co", {
     hotkeys: [
         {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return player.sl.unlocked},
+    layerShown(){return player.sl.unlocked && !inChallenge('i', 21)},
 
     upgrades: {
         11: {
@@ -595,7 +629,7 @@ addLayer("g", {
     hotkeys: [
         {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return hasUpgrade("co", 13) || player.g.unlocked },
+    layerShown(){return hasUpgrade("co", 13) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 21) },
     milestones: {
         0: {
             requirementDescription: "1 Glass",
@@ -627,9 +661,6 @@ addLayer("g", {
             effectDescription: "do absolutely nothing.",
             unlocked() {return player.sl.unlocked },
         },
-    },
-    upgrades: {
-
     },
 })
 addLayer("i", {
@@ -666,14 +697,20 @@ addLayer("i", {
     upgrades: {
         11: {
             title: "Iron-Covered Slate",
-            description: "Keep slate upgrades on glass & iron. Unlock a challenge!",
+            description: "Keep slate & tree upgrades on glass & iron. Unlock a challenge!",
             cost: new Decimal(1),
         },
         12: {
             title: "Stone*2",
-            description: "Unlock more stone upgrades (SOON).",
+            description: "Unlock more stone upgrades.",
             cost: new Decimal(3),
             unlocked() { return hasUpgrade("i", 11)}, 
+        },
+        13: {
+            title: "2Saver",
+            description: "soon",
+            cost: new Decimal(5),
+            unlocked() { return hasUpgrade("i", 12) && hasChallenge("i", 21)}, 
         },
     },
     challenges: {
@@ -706,10 +743,10 @@ addLayer("i", {
         },
         12: {
             name: "Extraless",
-            challengeDescription: "Effect of starting, but also lose access to clay and trees. Unlock the first permanent choice (hint: check below achivements).",
+            challengeDescription: "Effect of starting, but also lose access to clay and trees.",
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte(20)},
-            rewardDescription: "Triple clay & trees.",
+            rewardDescription: "Triple clay & trees. Unlock the first permanent choice (hint: check below achivements).",
             unlocked() { return hasChallenge('i', 11)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
@@ -731,13 +768,40 @@ addLayer("i", {
                 player.g.milestones = []; 
             },
         },
-        13: {
+        21: {
+            name: "Dissapearence",
+            challengeDescription: "Extraless cranked to 11. Lose access to row 3+.",
+            goalDescription: "100 Stone",
+            canComplete: function() {return player.s.points.gte(100)},
+            rewardDescription: "Unlock a new layer and iron upgrade (will work soon).",
+            unlocked() { return hasChallenge('i', 12)}, 
+            onEnter() { 
+                player.points = new Decimal("0"); 
+                player.d.points = new Decimal("0"); 
+                player.d.upgrades = []; 
+                player.s.points = new Decimal("0"); 
+                player.s.upgrades = [];
+                player.c.points = new Decimal("0"); 
+                player.c.upgrades = []; 
+                player.sl.points = new Decimal("0"); 
+                player.sl.upgrades = []; 
+                player.sl.milestones = []; 
+                player.co.points = new Decimal("0"); 
+                player.co.upgrades = [];
+                player.t.points = new Decimal("0"); 
+                player.t.upgrades = []; 
+                player.g.points = new Decimal("0"); 
+                player.g.upgrades = []; 
+                player.g.milestones = []; 
+            },
+        },
+        22: {
             name: "Unobtainable",
             challengeDescription: "soon",
             goalDescription: "1e48 Stone",
             canComplete: function() {return player.s.points.gte(1e48)},
             rewardDescription: "nothing.",
-            unlocked() { return hasChallenge('i', 12)}, 
+            unlocked() { return hasChallenge('i', 21)}, 
             onEnter() { 
                 player.s.points = new Decimal("-1e48"); 
                 player.s.upgrades = [];
@@ -777,7 +841,7 @@ addLayer("b", {
         11: {
             title: "Bonus #1",
             description: "Double dirt gain.",
-            cost: new Decimal(3),
+            cost: new Decimal(4),
         },
         12: {
             title: "Bonus #2",
@@ -787,22 +851,22 @@ addLayer("b", {
         13: {
             title: "Bonus #3",
             description: "Double clay gain.",
-            cost: new Decimal(8),
+            cost: new Decimal(6),
         },
         14: {
             title: "Bonus #4",
             description: "Double coal gain.",
-            cost: new Decimal(14),
+            cost: new Decimal(7),
         },
         21: {
             title: "Bonus #5",
             description: "Double tree gain.",
-            cost: new Decimal(17),
+            cost: new Decimal(8),
         },
         22: {
             title: "Bonus #6",
             description: "Double iron gain.",
-            cost: new Decimal(24),
+            cost: new Decimal(9),
         },
     },
 })
@@ -823,7 +887,8 @@ addLayer("ch", {
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 2, // Prestige currency exponent
+    exponent: 1, // Prestige currency exponent
+    base: 1000,
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         return mult
@@ -837,13 +902,13 @@ addLayer("ch", {
     upgrades: {
         11: {
             title: "Iron",
-            description: "Double iron gain.",
+            description: "Double iron gain. (soon)",
             cost: new Decimal(0),
             unlocked() { return hasChallenge("i", 12) && !hasUpgrade("ch", 12)}, 
         },
         12: {
             title: "Coal",
-            description: "Quadruple coal gain.",
+            description: "Quadruple coal gain. (soon)",
             cost: new Decimal(0),
             unlocked() { return hasChallenge("i", 12) && !hasUpgrade("ch", 11)}, 
         },
@@ -948,6 +1013,12 @@ addLayer("a", {
             name: "Choosing",
             done() { return hasChallenge('i', 12) },
             tooltip: "Unlock permanent choices.",
+            image: "",
+        },
+        44: {
+            name: "Trillionaire",
+            done() { return player.points.gte(1e12) },
+            tooltip: "Obtain 1T grass.",
             image: "",
         },
     },

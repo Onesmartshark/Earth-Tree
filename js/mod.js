@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.7.2",
-	name: "Challenge fix",
+	num: "1.7.3",
+	name: "New challenge and more upgs also fixes",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -60,6 +60,7 @@ function getPointGen() {
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
+	if (hasMilestone('sl', 11)) gain = gain.times(3)
 	if (hasMilestone('g', 2)) mult = mult.times(4)
 	if (hasMilestone('g', 3)) mult = mult.times(4)
 	return gain
@@ -75,7 +76,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e8"))
+	return player.points.gte(new Decimal("1e12"))
 }
 
 
