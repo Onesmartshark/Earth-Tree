@@ -228,13 +228,13 @@ addLayer("s", {
             title: "Blackstone",
             description: "Double coal.",
             cost: new Decimal(1000),
-            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("i",13) },
+            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("i",12) },
         },
         31: {
             title: "Bigger boulders",
             description: "Triple stone.",
             cost: new Decimal(5000),
-            unlocked() { return hasUpgrade("s", 24) && hasUpgrade("i",13) && hasUpgrade("co",11) },
+            unlocked() { return hasUpgrade("s", 24) && hasUpgrade("i",12) && hasUpgrade("co",11) },
         },
     },
 })
@@ -656,14 +656,14 @@ addLayer("g", {
         3: {
             requirementDescription: "4 Glass",
             done() { return player.g.points.gte(4) && player.t.unlocked},
-            effectDescription: "Quadruple grass, double trees (yes this is basically slate 11 & 14). Unlock iron (soon).",
+            effectDescription: "Quadruple grass, double trees (yes this is basically slate 11 & 14). Unlock iron.",
             unlocked() {return player.t.unlocked },
         },
         4: {
             requirementDescription: "5 Glass",
-            done() { return player.g.points.gte(5) && player.sl.unlocked  },
-            effectDescription: "do absolutely nothing.",
-            unlocked() {return player.sl.unlocked },
+            done() { return player.g.points.gte(5) && player.i.unlocked  },
+            effectDescription: "Unlock iron challenge #4.",
+            unlocked() {return player.i.unlocked },
         },
     },
 })
@@ -804,15 +804,30 @@ addLayer("i", {
             },
         },
         22: {
-            name: "Unobtainable",
-            challengeDescription: "soon",
-            goalDescription: "1e48 Stone",
-            canComplete: function() {return player.s.points.gte(1e48)},
-            rewardDescription: "nothing.",
-            unlocked() { return hasChallenge('i', 21)}, 
+            name: "Debuffed",
+            challengeDescription: "Half all your stats (after reset) (DO NOT DO THIS)",
+            goalDescription: "inf Coal",
+            canComplete: function() {return player.co.points.gte("1e1000000000000000000000000000000000")},
+            rewardDescription: "not finished yet so its actually impossible",
+            unlocked() { return hasChallenge('i', 21) && hasMilestone('g', 4)}, 
             onEnter() { 
-                player.s.points = new Decimal("-1e48"); 
+                player.points = new Decimal("0"); 
+                player.d.points = new Decimal("0"); 
+                player.d.upgrades = []; 
+                player.s.points = new Decimal("0"); 
                 player.s.upgrades = [];
+                player.c.points = new Decimal("0"); 
+                player.c.upgrades = []; 
+                player.sl.points = new Decimal("0"); 
+                player.sl.upgrades = []; 
+                player.sl.milestones = []; 
+                player.co.points = new Decimal("0"); 
+                player.co.upgrades = [];
+                player.t.points = new Decimal("0"); 
+                player.t.upgrades = []; 
+                player.g.points = new Decimal("0"); 
+                player.g.upgrades = []; 
+                player.g.milestones = []; 
             },
         },
     }
@@ -1024,9 +1039,9 @@ addLayer("a", {
             image: "",
         },
         44: {
-            name: "Trillionaire",
-            done() { return player.points.gte(1e12) },
-            tooltip: "Obtain 1T grass.",
+            name: "Billionaire",
+            done() { return player.points.gte(1e9) },
+            tooltip: "Obtain 1B grass.",
             image: "",
         },
     },
