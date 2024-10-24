@@ -812,7 +812,7 @@ addLayer("i", {
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte("20")},
             rewardDescription: "Unlock steel.",
-            unlocked() { return hasChallenge('i', 21) && hasMilestone('g', 4)}, 
+            unlocked() { return hasChallenge('i', 21) && hasMilestone('g', 4) || inChallenge('i', 22) || hasChallenge('i', 22)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
                 player.d.points = new Decimal("0"); 
@@ -850,7 +850,7 @@ addLayer("st", {
     requires: new Decimal(50), // Can be a function that takes requirement increases into account
     resource: "steel", // Name of prestige currency
     baseResource: "iron", // Name of resource prestige is based on
-    baseAmount() {return player.co.points}, // Get the current amount of baseResource
+    baseAmount() {return player.i.points}, // Get the current amount of baseResource
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
