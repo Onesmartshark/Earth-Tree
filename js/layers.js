@@ -86,7 +86,7 @@ addLayer("d", {
             title: "Grass Sprout",
             description: "Triple your grass gain.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 14) },
+            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 14)  && !inChallenge('i', 21) },
         },
         22: {
             title: "Mining Moss",
@@ -284,6 +284,7 @@ addLayer("t", {
             title: "Tree Seeds",
             description: "Double your grass gain.",
             cost: new Decimal(1),
+            unlocked() {return !inChallenge('i', 21)}
         },
         12: {
             title: "Growth",
@@ -412,6 +413,7 @@ addLayer("sl", {
             title: "Slated Grass",
             description: "Double your grass gain.",
             cost: new Decimal(2),
+            unlocked() {return !inChallenge('i', 21)}
         },
         12: {
             title: "Stone-Covered Dirt",
@@ -488,6 +490,7 @@ addLayer("c", {
             title: "Overgrown Bricks",
             description: "Double your grass gain",
             cost: new Decimal(1),
+            unlocked() {return !inChallenge('i', 21)}
         },
         12: {
             title: "Clay Block",
@@ -577,7 +580,7 @@ addLayer("co", {
             title: "Boulders",
             description: "Double your stone gain.",
             cost: new Decimal(1),
-            unlocked() { return hasMilestone('sl', 4)}, 
+            unlocked() { return hasMilestone('sl', 4) }, 
         },
         12: {
             title: "Vein Finder",
@@ -781,7 +784,7 @@ addLayer("i", {
             challengeDescription: "Extraless cranked to 11. Lose access to row 3+.",
             goalDescription: "1,000 Stone",
             canComplete: function() {return player.s.points.gte(1000)},
-            rewardDescription: "Unlock a new layer and iron upgrade (will work soon).",
+            rewardDescription: "Unlock a iron upgrade (will work soon).",
             unlocked() { return hasChallenge('i', 12)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
@@ -804,11 +807,11 @@ addLayer("i", {
             },
         },
         22: {
-            name: "Debuffed",
-            challengeDescription: "Half all your stats (after reset) (DO NOT DO THIS)",
-            goalDescription: "inf Coal",
-            canComplete: function() {return player.co.points.gte("1e1000000000000000000000000000000000")},
-            rewardDescription: "not finished yet so its actually impossible",
+            name: "Upgrades-",
+            challengeDescription: "Disable slate, tree, and clay upgrades, along with disabling grass upgrades 5+. (this one takes ur iron upgrades too so gl)",
+            goalDescription: "20 Coal",
+            canComplete: function() {return player.co.points.gte("20")},
+            rewardDescription: "Unlock steel.",
             unlocked() { return hasChallenge('i', 21) && hasMilestone('g', 4)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
@@ -828,9 +831,54 @@ addLayer("i", {
                 player.g.points = new Decimal("0"); 
                 player.g.upgrades = []; 
                 player.g.milestones = []; 
+                player.i.points = new Decimal("0"); 
+                player.i.upgrades = []; 
             },
         },
     }
+})
+addLayer("st", {
+    name: "steel", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "St", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "#999999",
+    requires: new Decimal(50), // Can be a function that takes requirement increases into account
+    resource: "steel", // Name of prestige currency
+    baseResource: "iron", // Name of resource prestige is based on
+    baseAmount() {return player.co.points}, // Get the current amount of baseResource
+
+    
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 4, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "st", description: "Steel doesn't get a hotkey", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    doReset(resettingLayer) {
+        player.sl.milestones = []; 
+        if (layers[resettingLayer].row > this.row) layerDataReset("st", keep)
+    },
+    layerShown(){return hasChallenge('i', 22) || player.st.unlocked},
+
+    upgrades: {
+        11: {
+            title: "Gray-Painted Steel",
+            description: "Double stone, clay, and iron gain.",
+            cost: new Decimal(1),
+        },
+    },
 })
 addLayer("b", {
     name: "bonus", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -864,32 +912,32 @@ addLayer("b", {
         11: {
             title: "Bonus #1",
             description: "Double dirt gain.",
-            cost: new Decimal(4),
+            cost: new Decimal(3),
         },
         12: {
             title: "Bonus #2",
             description: "Double stone gain.",
-            cost: new Decimal(5),
+            cost: new Decimal(4),
         },
         13: {
             title: "Bonus #3",
             description: "Double clay gain.",
-            cost: new Decimal(6),
+            cost: new Decimal(5),
         },
         14: {
             title: "Bonus #4",
             description: "Double coal gain.",
-            cost: new Decimal(7),
+            cost: new Decimal(6),
         },
         21: {
             title: "Bonus #5",
             description: "Double tree gain.",
-            cost: new Decimal(8),
+            cost: new Decimal(7),
         },
         22: {
             title: "Bonus #6",
             description: "Double iron gain.",
-            cost: new Decimal(9),
+            cost: new Decimal(8),
         },
     },
 })
