@@ -86,7 +86,7 @@ addLayer("d", {
             title: "Grass Sprout",
             description: "Triple your grass gain.",
             cost: new Decimal(100),
-            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 14)  && !inChallenge('i', 21) },
+            unlocked() { return hasUpgrade("s", 23) && hasUpgrade("d", 14)  && !inChallenge('i', 22) },
         },
         22: {
             title: "Mining Moss",
@@ -284,7 +284,7 @@ addLayer("t", {
             title: "Tree Seeds",
             description: "Double your grass gain.",
             cost: new Decimal(1),
-            unlocked() {return !inChallenge('i', 21)}
+            unlocked() {return !inChallenge('i', 22)}
         },
         12: {
             title: "Growth",
@@ -413,7 +413,7 @@ addLayer("sl", {
             title: "Slated Grass",
             description: "Double your grass gain.",
             cost: new Decimal(2),
-            unlocked() {return !inChallenge('i', 21)}
+            unlocked() {return !inChallenge('i', 22)}
         },
         12: {
             title: "Stone-Covered Dirt",
@@ -490,7 +490,7 @@ addLayer("c", {
             title: "Overgrown Bricks",
             description: "Double your grass gain",
             cost: new Decimal(1),
-            unlocked() {return !inChallenge('i', 21)}
+            unlocked() {return !inChallenge('i', 22)}
         },
         12: {
             title: "Clay Block",
