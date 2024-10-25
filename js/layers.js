@@ -24,7 +24,7 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasUpgrade('f', 13)) mult = mult.times(2)
-        if (hasUpgrade('cm', 14)) mult = mult.times(2)
+        if (hasUpgrade('cm', 12)) mult = mult.times(3)
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(4)
@@ -265,7 +265,7 @@ addLayer("t", {
         mult = new Decimal(1)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasUpgrade('f', 11)) mult = mult.times(2)
-        if (hasUpgrade('cm', 12)) mult = mult.times(2)
+        if (hasUpgrade('cm', 13)) mult = mult.times(2)
         if (hasUpgrade('te', 21)) mult = mult.times(1000)
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
@@ -870,7 +870,7 @@ addLayer("f", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('cm', 13)) mult = mult.times(2)
+        if (hasUpgrade('cm', 14)) mult = mult.times(2)
         if (hasUpgrade('te', 23)) mult = mult.times(1000)
         return mult
     },
@@ -906,6 +906,65 @@ addLayer("f", {
         14: {
             title: "Compressed Dirt",
             description: "Unlock compost.",
+            cost: new Decimal(10),
+        },
+    },
+})
+addLayer("cm", {
+    name: "compost", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "Cm", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "brown",
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    resource: "compost", // Name of prestige currency
+    baseResource: "fruits", // Name of resource prestige is based on
+    baseAmount() {return player.f.points}, // Get the current amount of baseResource
+
+    
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        if (hasUpgrade('te', 24)) mult = mult.times(1000)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 4, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "ctrl+c", description: "Ctrl+C: Reset for Compost", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    doReset(resettingLayer) {
+        player.sl.milestones = []; 
+        if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
+    },
+    layerShown(){return hasUpgrade("f", 14) || player.cm.unlocked},
+
+    upgrades: {
+        11: {
+            title: "Fertilized Grass",
+            description: "Double grass.",
+            cost: new Decimal(3),
+        },
+        12: {
+            title: "Smoother Dirt",
+            description: "Triple dirt.",
+            cost: new Decimal(3),
+        },
+        13: {
+            title: "Better trees",
+            description: "Double trees.",
+            cost: new Decimal(5),
+        },
+        14: {
+            title: "Fruit-Increasing Compost",
+            description: "Double fruit.",
             cost: new Decimal(10),
         },
     },
@@ -1071,6 +1130,16 @@ addLayer("te", {
         },
         22: {
             title: "Iron",
+            description: "1000x gain.",
+            cost: new Decimal(1),
+        },
+        23: {
+            title: "Fruits",
+            description: "1000x gain.",
+            cost: new Decimal(1), 
+        },
+        24: {
+            title: "Compost",
             description: "1000x gain.",
             cost: new Decimal(1),
         },
