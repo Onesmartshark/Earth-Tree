@@ -14,7 +14,7 @@ let modInfo = {
 // Set your version in num and name
 let VERSION = {
 	num: "1.9.1",
-	name: "Compost Update",
+	name: "Get rid of compost (its broken and getting annoying as heck)",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -59,7 +59,6 @@ function getPointGen() {
 	if (hasUpgrade('sl', 11)) gain = gain.times(2)
 	if (hasUpgrade('te', 11)) gain = gain.times(1000)
 	if (hasUpgrade('f', 12)) mult = mult.times(3)
-	if (hasUpgrade('cm', 11)) mult = mult.times(3)
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)

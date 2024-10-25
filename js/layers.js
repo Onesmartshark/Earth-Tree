@@ -24,7 +24,6 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasUpgrade('f', 13)) mult = mult.times(2)
-        if (hasUpgrade('cm', 12)) mult = mult.times(3)
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(4)
@@ -265,7 +264,6 @@ addLayer("t", {
         mult = new Decimal(1)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasUpgrade('f', 11)) mult = mult.times(2)
-        if (hasUpgrade('cm', 13)) mult = mult.times(2)
         if (hasUpgrade('te', 21)) mult = mult.times(1000)
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
@@ -870,7 +868,6 @@ addLayer("f", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasUpgrade('cm', 14)) mult = mult.times(2)
         if (hasUpgrade('te', 23)) mult = mult.times(1000)
         return mult
     },
