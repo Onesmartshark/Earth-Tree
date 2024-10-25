@@ -837,49 +837,6 @@ addLayer("i", {
         },
     }
 })
-addLayer("st", {
-    name: "steel", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "St", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
-    startData() { return {
-        unlocked: false,
-		points: new Decimal(0),
-        
-    }},
-    color: "#999999",
-    requires: new Decimal(50), // Can be a function that takes requirement increases into account
-    resource: "steel", // Name of prestige currency
-    baseResource: "iron", // Name of resource prestige is based on
-    baseAmount() {return player.i.points}, // Get the current amount of baseResource
-
-    
-    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.5, // Prestige currency exponent
-    gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        return mult
-    },
-    gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal(1)
-    },
-    row: 4, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "st", description: "Steel doesn't get a hotkey", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
-    doReset(resettingLayer) {
-        player.sl.milestones = []; 
-        if (layers[resettingLayer].row > this.row) layerDataReset("st", keep)
-    },
-    layerShown(){return hasChallenge('i', 22) || player.st.unlocked},
-
-    upgrades: {
-        11: {
-            title: "Gray-Painted Steel",
-            description: "Double stone, clay, and iron gain.",
-            cost: new Decimal(1),
-        },
-    },
-})
 addLayer("b", {
     name: "bonus", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "B", // This appears on the layer's node. Default is the id with the first letter capitalized
