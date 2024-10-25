@@ -937,6 +937,9 @@ addLayer("cm", {
         return new Decimal(1)
     },
     row: 4, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "Shif", description: "", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
     doReset(resettingLayer) {
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
