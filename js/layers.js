@@ -942,7 +942,7 @@ addLayer("cm", {
     ],
     doReset(resettingLayer) {
         player.sl.milestones = []; 
-        if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
+        if (layers[resettingLayer].row > this.row) layerDataReset("cm", keep)
     },
     layerShown(){return hasUpgrade("f", 14) || player.cm.unlocked},
 
