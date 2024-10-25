@@ -923,8 +923,6 @@ addLayer("cm", {
     ],
     doReset(resettingLayer) {
         player.sl.milestones = []; 
-        player.f.upgrades = []; 
-        player.f.points = new Decimal("0")
         if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
     },
     layerShown(){return hasUpgrade('f', 12)},
