@@ -1116,12 +1116,6 @@ addLayer("a", {
             image: "",
         },
         44: {
-            name: "Fruity",
-            done() { return player.f.points.gt(0) },
-            tooltip: "Get a fruit.",
-            image: "",
-        },
-        51: {
             name: "Slate^3",
             done() { return player.sl.points.gte(27) },
             tooltip: "Reach 27 slate. Reward: x1.25 Stone",
