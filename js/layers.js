@@ -160,6 +160,7 @@ addLayer("s", {
         if (hasMilestone('g', 1)) mult = mult.times(3)
         if (hasChallenge('i', 11)) mult = mult.times(4)
         if (hasAchievement('a', 23)) mult = mult.times(1.25)
+        if (hasAchievement('a', 51)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -258,11 +259,14 @@ addLayer("t", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        if (hasMilestone('sl', 7)) mult = mult.times(2)
+        if (hasUpgrade('f', 11)) mult = mult.times(2)
+        if (hasUpgrade('cm', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
+        if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
         if (hasMilestone('g', 3)) mult = mult.times(2)
         if (hasChallenge('i', 12)) mult = mult.times(3)
+            
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -564,6 +568,7 @@ addLayer("co", {
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasChallenge('i', 11)) mult = mult.times(2)
         if (hasAchievement('a', 34)) mult = mult.times(1.25)
+        if (hasUpgrade('ch', 12)) mult = mult.times(4)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -690,6 +695,7 @@ addLayer("i", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('ch', 11)) mult = mult.times(2)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -811,7 +817,7 @@ addLayer("i", {
             challengeDescription: "Disable slate, tree, and clay upgrades, along with disabling grass upgrades 5+. (this one takes ur iron upgrades too so gl)",
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte("20")},
-            rewardDescription: "Unlock steel.",
+            rewardDescription: "Unlock fruits.",
             unlocked() { return hasChallenge('i', 21) && hasMilestone('g', 4) || inChallenge('i', 22) || hasChallenge('i', 22)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
@@ -836,6 +842,100 @@ addLayer("i", {
             },
         },
     }
+})
+addLayer("f", {
+    name: "fruits", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "F", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "red",
+    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    resource: "fruits", // Name of prestige currency
+    baseResource: "trees", // Name of resource prestige is based on
+    baseAmount() {return player.t.points}, // Get the current amount of baseResource
+
+    
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        if (hasUpgrade('cm', 11)) mult = mult.times(2)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "f", description: "F: Reset for Fruit", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    doReset(resettingLayer) {
+        player.sl.milestones = []; 
+        if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
+    },
+    layerShown(){return player.f.unlocked || hasChallenge('i', 22)},
+
+    upgrades: {
+        11: {
+            title: "Seeds",
+            description: "Double grass & tree gain",
+            cost: new Decimal(1),
+        },
+        12: {
+            title: "Composter",
+            description: "Unlock compost.",
+            cost: new Decimal(3),
+        },
+    },
+})
+addLayer("cm", {
+    name: "compost", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "Cm", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 3, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "brown",
+    requires: new Decimal(1000), // Can be a function that takes requirement increases into account
+    resource: "compost", // Name of prestige currency
+    baseResource: "fruits", // Name of resource prestige is based on
+    baseAmount() {return player.f.points}, // Get the current amount of baseResource
+
+    
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "cm", description: "no compost hotkey for now", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    doReset(resettingLayer) {
+        player.sl.milestones = []; 
+        player.f.upgrades = []; 
+        player.f.points = new Decimal("0")
+        if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
+    },
+    layerShown(){return hasUpgrade('f', 12)},
+
+    upgrades: {
+        11: {
+            title: "Fertilizer",
+            description: "Double grass, tree & fruit gain.",
+            cost: new Decimal(1),
+        },
+    },
 })
 addLayer("b", {
     name: "bonus", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -930,13 +1030,13 @@ addLayer("ch", {
     upgrades: {
         11: {
             title: "Iron",
-            description: "Double iron gain. (soon)",
+            description: "Double iron gain.",
             cost: new Decimal(0),
             unlocked() { return hasChallenge("i", 12) && !hasUpgrade("ch", 12)}, 
         },
         12: {
             title: "Coal",
-            description: "Quadruple coal gain. (soon)",
+            description: "Quadruple coal gain.",
             cost: new Decimal(0),
             unlocked() { return hasChallenge("i", 12) && !hasUpgrade("ch", 11)}, 
         },
@@ -1044,9 +1144,15 @@ addLayer("a", {
             image: "",
         },
         44: {
-            name: "Billionaire",
-            done() { return player.points.gte(1e9) },
-            tooltip: "Obtain 1B grass.",
+            name: "Fruity",
+            done() { return player.f.points.gt(0) },
+            tooltip: "Get a fruit.",
+            image: "",
+        },
+        51: {
+            name: "Slate^3",
+            done() { return player.sl.points.gte(27) },
+            tooltip: "Reach 27 slate. Reward: x1.25 Stone",
             image: "",
         },
     },
