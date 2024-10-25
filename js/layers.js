@@ -917,7 +917,7 @@ addLayer("cm", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-    row: 3, // Row the layer is in on the tree (0 is the first row)
+    row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "cm", description: "no compost hotkey for now", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
