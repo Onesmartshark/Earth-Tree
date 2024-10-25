@@ -942,10 +942,8 @@ addLayer("cm", {
     ],
     doReset(resettingLayer) {
         player.sl.milestones = []; 
-        if (layers[resettingLayer].row > this.row) layerDataReset("cm", keep)
     },
     layerShown(){return hasUpgrade("f", 14) || player.cm.unlocked},
-
     upgrades: {
         11: {
             title: "Fertilized Grass",
@@ -968,6 +966,7 @@ addLayer("cm", {
             cost: new Decimal(10),
         },
     },
+    
 })
 addLayer("b", {
     name: "bonus", // This is optional, only used in a few places, If absent it just uses the layer id.
