@@ -941,7 +941,7 @@ addLayer("cm", {
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("cm", keep)
     },
-    layerShown(){return hasChallenge('i', 22)},
+    layerShown(){return hasChallenge('i', 23)},
 
     upgrades: {
         11: {
