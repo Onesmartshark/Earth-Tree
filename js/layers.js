@@ -24,6 +24,7 @@ addLayer("d", {
         if (hasUpgrade('s', 22)) mult = mult.times(2)
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasUpgrade('f', 13)) mult = mult.times(2)
+        if (hasUpgrade('b', 11)) mult = mult.times(2)
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(4)
@@ -156,6 +157,8 @@ addLayer("s", {
         if (hasUpgrade('d', 22)) mult = mult.times(2)
         if (hasUpgrade('co', 11)) mult = mult.times(2)
         if (hasUpgrade('co', 13)) mult = mult.times(2)
+        if (hasUpgrade('cm', 12)) mult = mult.times(2)
+        if (hasUpgrade('b', 12)) mult = mult.times(2)
         if (hasUpgrade('te', 13)) mult = mult.times(1000)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('sl', 11)) mult = mult.times(3)
@@ -163,7 +166,6 @@ addLayer("s", {
         if (hasMilestone('g', 1)) mult = mult.times(3)
         if (hasChallenge('i', 11)) mult = mult.times(4)
         if (hasAchievement('a', 23)) mult = mult.times(1.25)
-        if (hasAchievement('a', 51)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -264,12 +266,14 @@ addLayer("t", {
         mult = new Decimal(1)
         if (hasUpgrade('co', 14)) mult = mult.times(0.5)
         if (hasUpgrade('f', 11)) mult = mult.times(2)
+        if (hasUpgrade('cm', 11)) mult = mult.times(2)
+        if (hasUpgrade('b', 21)) mult = mult.times(2)
         if (hasUpgrade('te', 21)) mult = mult.times(1000)
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
         if (hasMilestone('g', 3)) mult = mult.times(2)
         if (hasChallenge('i', 12)) mult = mult.times(3)
-            
+        if (hasAchievement('a', 51)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -340,6 +344,7 @@ addLayer("sl", {
         if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("sl", keep)
     },
+    resetsNothing() { return hasAchievement("a", 44) },
     layerShown(){return player.s.unlocked && !inChallenge('i', 21)},
     milestones: {
         0: {
@@ -469,6 +474,7 @@ addLayer("c", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('c', 12)) mult = mult.times(4)
+        if (hasUpgrade('b', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
             
@@ -566,13 +572,15 @@ addLayer("co", {
         if (hasUpgrade('co', 12)) mult = mult.times(2)
         if (hasUpgrade('c', 23)) mult = mult.times(2)
         if (hasUpgrade('s', 24)) mult = mult.times(2)
+        if (hasUpgrade('ch', 12)) mult = mult.times(4)
+        if (hasUpgrade('cm', 12)) mult = mult.times(2)
+        if (hasUpgrade('b', 14)) mult = mult.times(2)
         if (hasUpgrade('te', 14)) mult = mult.times(1000)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('sl', 10)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasChallenge('i', 11)) mult = mult.times(2)
         if (hasAchievement('a', 34)) mult = mult.times(1.25)
-        if (hasUpgrade('ch', 12)) mult = mult.times(4)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -700,6 +708,8 @@ addLayer("i", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('ch', 11)) mult = mult.times(2)
+        if (hasUpgrade('cm', 12)) mult = mult.times(2)
+        if (hasUpgrade('b', 22)) mult = mult.times(2)
         if (hasUpgrade('te', 22)) mult = mult.times(1000)
         return mult
     },
@@ -868,7 +878,10 @@ addLayer("f", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('cm', 11)) mult = mult.times(2)
+        if (hasUpgrade('b', 23)) mult = mult.times(2)
         if (hasUpgrade('te', 23)) mult = mult.times(1000)
+        if (hasAchievement('a', 52)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -882,7 +895,7 @@ addLayer("f", {
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
     },
-    layerShown(){return hasChallenge('i', 22)},
+    layerShown(){return hasChallenge('i', 22) || player.cm.unlocked},
 
     upgrades: {
         11: {
@@ -917,7 +930,7 @@ addLayer("cm", {
         
     }},
     color: "brown",
-    requires: new Decimal(1e308), // Can be a function that takes requirement increases into account
+    requires: new Decimal("1000"), // Can be a function that takes requirement increases into account
     resource: "compost", // Name of prestige currency
     baseResource: "fruits", // Name of resource prestige is based on
     baseAmount() {return player.f.points}, // Get the current amount of baseResource
@@ -927,6 +940,7 @@ addLayer("cm", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('b', 23)) mult = mult.times(2)
         if (hasUpgrade('te', 24)) mult = mult.times(1000)
         return mult
     },
@@ -935,34 +949,43 @@ addLayer("cm", {
     },
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "c+m", description: "C+M: Reset for trash", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "c+m", description: "C+M: Reset for compost (broken)", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
+        player.d.points = new Decimal("0"); 
+        player.d.upgrades = []; 
+        player.s.points = new Decimal("0"); 
+        player.s.upgrades = []; 
+        player.c.points = new Decimal("0"); 
+        player.c.upgrades = []; 
+        player.sl.points = new Decimal("0"); 
+        player.sl.upgrades = []; 
         player.sl.milestones = []; 
+        player.co.points = new Decimal("0"); 
+        player.co.upgrades = []; 
+        player.t.points = new Decimal("0"); 
+        player.t.upgrades = []; 
+        player.g.points = new Decimal("0"); 
+        player.g.milestones = []; 
+        player.i.points = new Decimal("0"); 
+        player.i.upgrades = []; 
+        player.i.challenges = []; 
+        player.f.points = new Decimal("0"); 
+        player.f.upgrades = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("cm", keep)
     },
-    layerShown(){return hasChallenge('i', 23)},
+    layerShown(){return hasUpgrade("f", 14) || player.cm.unlocked},
 
     upgrades: {
         11: {
-            title: "Fruity Trees (this layer is disable due to an unfixable bug.)",
-            description: "Double trees.",
+            title: "Fertilized Dirt",
+            description: "Double grass, trees, and fruit gain.",
             cost: new Decimal(1),
         },
         12: {
-            title: "Bigger Growth",
-            description: "Triple grass.",
+            title: "Hidden Materials",
+            description: "Double stone, coal, and iron gain.",
             cost: new Decimal(3),
-        },
-        13: {
-            title: "Rooted Dirt",
-            description: "Double dirt.",
-            cost: new Decimal(5),
-        },
-        14: {
-            title: "Compressed Dirt",
-            description: "Unlock compost (soon, might not be added, I tried 4 times to add it and it broke every time).",
-            cost: new Decimal(10),
         },
     },
 })
@@ -1024,6 +1047,11 @@ addLayer("b", {
             title: "Bonus #6",
             description: "Double iron gain.",
             cost: new Decimal(8),
+        },
+        23: {
+            title: "Bonus #7",
+            description: "Double fruit & compost gain.",
+            cost: new Decimal(9),
         },
     },
 })
@@ -1247,7 +1275,19 @@ addLayer("a", {
         44: {
             name: "Slate^3",
             done() { return player.sl.points.gte(27) },
-            tooltip: "Reach 27 slate. Reward: x1.25 Stone",
+            tooltip: "Reach 27 slate. Reward: Slate no longer resets anything.",
+            image: "",
+        },
+        51: {
+            name: "Fruity",
+            done() { return player.f.points.gt(0) },
+            tooltip: "Reset for fruit. Reward: x1.25 Trees",
+            image: "",
+        },
+        52: {
+            name: "Fertilizer",
+            done() { return player.cm.points.gt(0) },
+            tooltip: "Reset for compost. Reward: x1.25 Fruit",
             image: "",
         },
     },

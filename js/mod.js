@@ -7,14 +7,14 @@ let modInfo = {
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 0,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.9.1",
-	name: "Get rid of compost (its broken and getting annoying as heck)",
+	num: "1.9.3",
+	name: "More achivements",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -59,6 +59,7 @@ function getPointGen() {
 	if (hasUpgrade('sl', 11)) gain = gain.times(2)
 	if (hasUpgrade('te', 11)) gain = gain.times(1000)
 	if (hasUpgrade('f', 12)) mult = mult.times(3)
+	if (hasUpgrade('cm', 11)) mult = mult.times(3)
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
