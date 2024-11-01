@@ -419,6 +419,12 @@ addLayer("sl", {
             done() { return player.sl.points.gte(20) && hasUpgrade("sl", 21)},
             effectDescription: "Triple dirt & grass.",
         },
+        12: {
+            requirementDescription: "50 Slate",
+            unlocked() {return hasAchievement("a", 44)},
+            done() { return player.sl.points.gte(50) && hasAchievement("a", 44)},
+            effectDescription: "soon.",
+        },
     },
     upgrades: {
         11: {
