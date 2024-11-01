@@ -656,7 +656,7 @@ addLayer("g", {
         {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
-        player.sl.milestones = []; 
+        if (!hasMilestone('g', 4)) player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("g", keep)
     },
     layerShown(){return hasUpgrade("co", 13) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 21) },
@@ -688,7 +688,7 @@ addLayer("g", {
         4: {
             requirementDescription: "5 Glass",
             done() { return player.g.points.gte(5) && player.i.unlocked  },
-            effectDescription: "Unlock iron challenge #4.",
+            effectDescription: "Unlock iron challenge #4, and glass no longer resets slate milestones..",
             unlocked() {return player.i.unlocked },
         },
     },
