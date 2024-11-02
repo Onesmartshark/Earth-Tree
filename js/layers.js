@@ -597,7 +597,10 @@ addLayer("co", {
         {key: "C", description: "C+Shift: Reset for Coal", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return player.sl.unlocked && !inChallenge('i', 21)},
-
+    doReset(resettingLayer) {
+        let keep = [];
+        if (layers[resettingLayer].row > this.row) layerDataReset("co", keep)
+    },
     upgrades: {
         11: {
             title: "Boulders",
@@ -656,6 +659,7 @@ addLayer("g", {
         {key: "g", description: "G: Reset for Glass", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
+        let keep = [];
         if (!hasMilestone('g', 4)) player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("g", keep)
     },
@@ -727,6 +731,7 @@ addLayer("i", {
         {key: "i", description: "I: Reset for Iron", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
+        let keep = [];
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("i", keep)
     },
@@ -898,6 +903,7 @@ addLayer("f", {
         {key: "f", description: "F: Reset for Fruits", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
+        let keep = [];
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("f", keep)
     },
@@ -958,6 +964,7 @@ addLayer("cm", {
         {key: "c+m", description: "C+M: Reset for compost (broken)", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
+        let keep = [];
         player.d.points = new Decimal("0"); 
         player.d.upgrades = []; 
         player.s.points = new Decimal("0"); 
@@ -981,6 +988,19 @@ addLayer("cm", {
         if (layers[resettingLayer].row > this.row) layerDataReset("cm", keep)
     },
     layerShown(){return hasUpgrade("f", 14) || player.cm.unlocked},
+
+    buyables: {
+        11: {
+            cost(x) { return Math.floor(new Decimal(4).mul(new Decimal(2).pow(getBuyableAmount(this.layer, this.id)))) },
+            title() { return "Fertilized Compost"},
+            display() { return "x2 Grass gain: "+Math.floor(new Decimal(4).mul(new Decimal(2).pow(getBuyableAmount(this.layer, this.id)))) },
+            canAfford() { return player[this.layer].points.gte(this.cost()) },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+        },
+    },
 
     upgrades: {
         11: {
