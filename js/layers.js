@@ -993,7 +993,7 @@ addLayer("cm", {
         11: {
             cost(x) { return Math.floor(new Decimal(4).mul(new Decimal(2).pow(getBuyableAmount(this.layer, this.id)))) },
             title() { return "Fertilized Compost"},
-            display() { return "x2 Grass gain: "+Math.floor(new Decimal(4).mul(new Decimal(2).pow(getBuyableAmount(this.layer, this.id)))) },
+            display() { return "x2 Grass gain: (I will implement cost soon). Bought "+getBuyableAmount(this.layer, this.id)+", Cost starts at 4, doubles every buy." },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
