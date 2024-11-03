@@ -721,6 +721,7 @@ addLayer("i", {
         if (hasUpgrade('cm', 12)) mult = mult.times(2)
         if (hasUpgrade('b', 22)) mult = mult.times(2)
         if (hasUpgrade('te', 22)) mult = mult.times(1000)
+        if (hasAchievement('a', 53)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -751,9 +752,15 @@ addLayer("i", {
         },
         13: {
             title: "2Saver",
-            description: "soon",
+            description: "soon (unlocks a new upg tho)",
             cost: new Decimal(5),
             unlocked() { return hasUpgrade("i", 12) && hasChallenge("i", 21)}, 
+        },
+        21: {
+            title: "Reinforcer",
+            description: "Unlock steel",
+            cost: new Decimal(750),
+            unlocked() { return hasUpgrade("i", 13) && hasChallenge("i", 21)}, 
         },
     },
     challenges: {
@@ -870,7 +877,7 @@ addLayer("i", {
     }
 })
 addLayer("f", {
-    name: "fruits", // This is optional, only used in a few places, If absent it just uses the layer id.
+    name: "harvest", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "F", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
@@ -954,6 +961,7 @@ addLayer("cm", {
         mult = new Decimal(1)
         if (hasUpgrade('b', 23)) mult = mult.times(2)
         if (hasUpgrade('te', 24)) mult = mult.times(1000)
+        if (hasAchievement('a', 54)) mult = mult.times(1.25)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -993,7 +1001,7 @@ addLayer("cm", {
         11: {
             cost(x) { return Math.floor(new Decimal(4).mul(new Decimal(2).pow(getBuyableAmount(this.layer, this.id)))) },
             title() { return "Fertilized Compost"},
-            display() { return "x2 Grass gain: (I will implement cost soon). Bought "+getBuyableAmount(this.layer, this.id)+", Cost starts at 4, doubles every buy." },
+            display() { return "x2 Grass gain: (I will implement cost display soon). Bought "+getBuyableAmount(this.layer, this.id)+", Cost starts at 4, doubles every buy." },
             canAfford() { return player[this.layer].points.gte(this.cost()) },
             buy() {
                 player[this.layer].points = player[this.layer].points.sub(this.cost())
@@ -1012,6 +1020,69 @@ addLayer("cm", {
             title: "Hidden Materials",
             description: "Double stone, coal, and iron gain.",
             cost: new Decimal(3),
+        },
+    },
+})
+addLayer("st", {
+    name: "steel", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "St", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        
+    }},
+    color: "#999999",
+    requires: new Decimal("10000"), // Can be a function that takes requirement increases into account
+    resource: "steel", // Name of prestige currency
+    baseResource: "iron", // Name of resource prestige is based on
+    baseAmount() {return player.i.points}, // Get the current amount of baseResource
+
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+        if (hasUpgrade('b', 24)) mult = mult.times(2)
+        if (hasUpgrade('te', 25)) mult = mult.times(1000)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 4, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "s+t", description: "S+T: Reset for steel (broken)", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    doReset(resettingLayer) {
+        let keep = [];
+        player.d.points = new Decimal("0"); 
+        player.d.upgrades = []; 
+        player.s.points = new Decimal("0"); 
+        player.s.upgrades = []; 
+        player.c.points = new Decimal("0"); 
+        player.c.upgrades = []; 
+        player.sl.points = new Decimal("0"); 
+        player.sl.upgrades = []; 
+        player.sl.milestones = []; 
+        player.co.points = new Decimal("0"); 
+        player.co.upgrades = []; 
+        player.t.points = new Decimal("0"); 
+        player.t.upgrades = []; 
+        player.g.points = new Decimal("0"); 
+        player.g.milestones = []; 
+        player.i.points = new Decimal("0"); 
+        player.i.upgrades = []; 
+        player.i.challenges = []; 
+        player.f.points = new Decimal("0"); 
+        player.f.upgrades = []; 
+        if (layers[resettingLayer].row > this.row) layerDataReset("st", keep)
+    },
+    layerShown(){return hasUpgrade("i", 21) || player.st.unlocked},
+    upgrades: {
+        11: {
+            title: "Upgrades coming soon",
+            description: "title.",
+            cost: new Decimal("1e1e1e308"),
         },
     },
 })
@@ -1077,6 +1148,11 @@ addLayer("b", {
         23: {
             title: "Bonus #7",
             description: "Double fruit & compost gain.",
+            cost: new Decimal(9),
+        },
+        24: {
+            title: "Bonus #8",
+            description: "Double steel gain.",
             cost: new Decimal(9),
         },
     },
@@ -1191,6 +1267,11 @@ addLayer("te", {
         },
         24: {
             title: "Compost",
+            description: "1000x gain.",
+            cost: new Decimal(1),
+        },
+        25: {
+            title: "Steel",
             description: "1000x gain.",
             cost: new Decimal(1),
         },
@@ -1314,6 +1395,18 @@ addLayer("a", {
             name: "Fertilizer",
             done() { return player.cm.points.gt(0) },
             tooltip: "Reset for compost. Reward: x1.25 Fruit",
+            image: "",
+        },
+        53: {
+            name: "Steelizer",
+            done() { return player.st.points.gt(0) },
+            tooltip: "Reset for steel. Reward: x1.25 Iron",
+            image: "",
+        },
+        54: {
+            name: "Supercompost",
+            done() { return player.cm.points.gte(100) },
+            tooltip: "Obtain 100 compost. Reward: x1.25 Compost",
             image: "",
         },
     },
