@@ -5,7 +5,7 @@ let modInfo = {
 	pointsName: "Grass",
 	modFiles: ["layers.js", "tree.js"],
 
-	discordName: "",
+	discordName: "I will set this up later sorry",
 	discordLink: "",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 0,  // In hours
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.9.6",
-	name: "Steel pre-add",
+	num: "1.10",
+	name: "STEEL!!!!!!!!!!",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -60,6 +60,7 @@ function getPointGen() {
 	if (hasUpgrade('te', 11)) gain = gain.times(1000)
 	if (hasUpgrade('f', 12)) gain = gain.times(3)
 	if (hasUpgrade('cm', 11)) gain = gain.times(3)
+	if (hasUpgrade('st', 14)) gain = gain.times(6)
 	if (hasMilestone('sl', 3)) gain = gain.times(2)
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)

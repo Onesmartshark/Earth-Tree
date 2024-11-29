@@ -1080,9 +1080,51 @@ addLayer("st", {
     layerShown(){return hasUpgrade("i", 21) || player.st.unlocked},
     upgrades: {
         11: {
-            title: "Upgrades coming soon",
-            description: "title.",
-            cost: new Decimal("1e1e1e308"),
+            title: "Reinforcer",
+            description: "Unlock 4 (temporary) choice upgrades.",
+            cost: new Decimal("0"),
+        },
+        12: {
+            title: "Reinforced Dirt",
+            description: "x5 Dirt. Lock out the others.",
+            cost: new Decimal("1"),
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 13) && !hasUpgrade("st", 14) && !hasUpgrade("st", 21)},
+        },
+        13: {
+            title: "Reinforced Stone",
+            description: "x4 Stone. Lock out the others.",
+            cost: new Decimal("1"),
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 14) && !hasUpgrade("st", 21)},
+        },
+        14: {
+            title: "Reinforced Grass",
+            description: "x6 Grass. Lock out the others.",
+            cost: new Decimal("1"),
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 13) && !hasUpgrade("st", 21)},
+        },
+        21: {
+            title: "None",
+            description: "No buffs, lock the others, but unlock something.",
+            cost: new Decimal("1"),
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 13) && !hasUpgrade("st", 14)},
+        },
+        22: {
+            title: "Compost Improvement",
+            description: "Unlock another compost buyable.",
+            cost: new Decimal("3"),
+            unlocked(){return hasUpgrade("st", 21)},
+        },
+        23: {
+            title: "Grinded.",
+            description: "Unlock another upgrade, at a big cost.",
+            cost: new Decimal("25"),
+            unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14)} ,
+        },
+        24: {
+            title: "Molten",
+            description: "Double iron, steel, and coal.",
+            cost: new Decimal("10"),
+            unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14) || hasUpgrade("st", 21)} ,
         },
     },
 })
