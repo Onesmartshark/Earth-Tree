@@ -30,7 +30,7 @@ addLayer("d", {
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(4)
-        if (hasChallenge('i', 11)) mult = mult.times(5)
+        if (hasChallenge('i', 11) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(5)
         if (hasAchievement('a', 13)) mult = mult.times(1.25)
         if (getBuyableAmount('cm', 12).gt(0)) mult = mult.times(new Decimal(2).pow(getBuyableAmount('cm', 12)))
         return mult
@@ -184,7 +184,7 @@ addLayer("s", {
         if (hasMilestone('sl', 11)) mult = mult.times(3)
         if (hasMilestone('g', 0)) mult = mult.times(2)
         if (hasMilestone('g', 1)) mult = mult.times(3)
-        if (hasChallenge('i', 11)) mult = mult.times(4)
+        if (hasChallenge('i', 11) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(4)
         if (hasAchievement('a', 23)) mult = mult.times(1.25)
         return mult
     },
@@ -292,7 +292,7 @@ addLayer("t", {
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
         if (hasMilestone('g', 3)) mult = mult.times(2)
-        if (hasChallenge('i', 12)) mult = mult.times(3)
+        if (hasChallenge('i', 12) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(3)
         if (hasAchievement('a', 51)) mult = mult.times(1.25)
         return mult
     },
@@ -504,7 +504,7 @@ addLayer("c", {
         if (hasMilestone('sl', 1)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(3)
             
-        if (hasChallenge('i', 12)) mult = mult.times(3)
+        if (hasChallenge('i', 12) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -606,7 +606,7 @@ addLayer("co", {
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('sl', 10)) mult = mult.times(2)
         if (hasMilestone('g', 0)) mult = mult.times(2)
-        if (hasChallenge('i', 11)) mult = mult.times(2)
+        if (hasChallenge('i', 11) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(2)
         if (hasAchievement('a', 34)) mult = mult.times(1.25)
         return mult
     },
@@ -781,7 +781,7 @@ addLayer("i", {
         21: {
             title: "Reinforcer",
             description: "Unlock steel",
-            cost: new Decimal(750),
+            cost: new Decimal(15),
             unlocked() { return hasUpgrade("i", 13) && hasChallenge("i", 21)}, 
         },
     },
@@ -971,7 +971,7 @@ addLayer("cm", {
         
     }},
     color: "brown",
-    requires: new Decimal("1000"), // Can be a function that takes requirement increases into account
+    requires: new Decimal("10"), // Can be a function that takes requirement increases into account
     resource: "compost", // Name of prestige currency
     baseResource: "fruits", // Name of resource prestige is based on
     baseAmount() {return player.f.points}, // Get the current amount of baseResource
@@ -1065,7 +1065,7 @@ addLayer("st", {
         
     }},
     color: "#999999",
-    requires: new Decimal("10000"), // Can be a function that takes requirement increases into account
+    requires: new Decimal("25"), // Can be a function that takes requirement increases into account
     resource: "steel", // Name of prestige currency
     baseResource: "iron", // Name of resource prestige is based on
     baseAmount() {return player.i.points}, // Get the current amount of baseResource
