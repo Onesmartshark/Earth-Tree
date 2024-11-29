@@ -17,6 +17,7 @@ addLayer("d", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
         if (hasUpgrade('d', 14)) mult = mult.times(upgradeEffect('d', 14))
+        if (hasUpgrade('d', 41)) mult = mult.times(upgradeEffect('d', 41))
         if (hasUpgrade('s', 12)) mult = mult.times(upgradeEffect('s', 12))
         if (hasUpgrade('s', 13)) mult = mult.times(2)
         if (hasUpgrade('c', 21)) mult = mult.times(2)
@@ -25,11 +26,13 @@ addLayer("d", {
         if (hasUpgrade('s', 21)) mult = mult.times(3)
         if (hasUpgrade('f', 13)) mult = mult.times(2)
         if (hasUpgrade('b', 11)) mult = mult.times(2)
+        if (hasUpgrade('st', 12)) mult = mult.times(5)
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(4)
         if (hasChallenge('i', 11)) mult = mult.times(5)
         if (hasAchievement('a', 13)) mult = mult.times(1.25)
+        if (getBuyableAmount('cm', 12).gt(0)) mult = mult.times(new Decimal(2).pow(getBuyableAmount('cm', 12)))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -127,6 +130,22 @@ addLayer("d", {
             cost: new Decimal(100e3),
             unlocked() { return hasUpgrade("d", 32) && hasMilestone("sl", 8) },
         },
+        34: {
+            title: "Dirty Wood",
+            description: "Double your tree gain.",
+            cost: new Decimal(10e6),
+            unlocked() { return hasUpgrade("d", 33) && hasUpgrade("st", 31) },
+        },
+        41: {
+            title: "Dirty Dirt",
+            description: "Dirt is boosted by dirt.",
+            cost: new Decimal(1e9),
+            effect() {
+                return player[this.layer].points.add(1).pow(0.05)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
+            unlocked() { return hasUpgrade("d", 34) },
+        },
     },
 })
 addLayer("s", {
@@ -159,6 +178,7 @@ addLayer("s", {
         if (hasUpgrade('co', 13)) mult = mult.times(2)
         if (hasUpgrade('cm', 12)) mult = mult.times(2)
         if (hasUpgrade('b', 12)) mult = mult.times(2)
+        if (hasUpgrade('st', 13)) mult = mult.times(4)
         if (hasUpgrade('te', 13)) mult = mult.times(1000)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('sl', 11)) mult = mult.times(3)
@@ -580,6 +600,7 @@ addLayer("co", {
         if (hasUpgrade('s', 24)) mult = mult.times(2)
         if (hasUpgrade('ch', 12)) mult = mult.times(4)
         if (hasUpgrade('cm', 12)) mult = mult.times(2)
+        if (hasUpgrade('st', 24)) mult = mult.times(2)
         if (hasUpgrade('b', 14)) mult = mult.times(2)
         if (hasUpgrade('te', 14)) mult = mult.times(1000)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
@@ -719,6 +740,7 @@ addLayer("i", {
         mult = new Decimal(1)
         if (hasUpgrade('ch', 11)) mult = mult.times(2)
         if (hasUpgrade('cm', 12)) mult = mult.times(2)
+        if (hasUpgrade('st', 24)) mult = mult.times(2)
         if (hasUpgrade('b', 22)) mult = mult.times(2)
         if (hasUpgrade('te', 22)) mult = mult.times(1000)
         if (hasAchievement('a', 53)) mult = mult.times(1.25)
@@ -1008,6 +1030,16 @@ addLayer("cm", {
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
         },
+        12: {
+            cost(x) { return Math.floor(new Decimal(30).mul(new Decimal(3).pow(getBuyableAmount(this.layer, this.id)))) },
+            title() { return "Fertilized Compost"},
+            display() { return "x2 Dirt gain: (I will implement cost display soon). Bought "+getBuyableAmount(this.layer, this.id)+", Cost starts at 30, triples every buy." },
+            canAfford() { return player[this.layer].points.gte(this.cost()) },
+            buy() {
+                player[this.layer].points = player[this.layer].points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+        },
     },
 
     upgrades: {
@@ -1042,6 +1074,7 @@ addLayer("st", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('st', 24)) mult = mult.times(2)
         if (hasUpgrade('b', 24)) mult = mult.times(2)
         if (hasUpgrade('te', 25)) mult = mult.times(1000)
         return mult
@@ -1112,7 +1145,7 @@ addLayer("st", {
             title: "Compost Improvement",
             description: "Unlock another compost buyable.",
             cost: new Decimal("3"),
-            unlocked(){return hasUpgrade("st", 21)},
+            unlocked(){return hasUpgrade("st", 21) || hasUpgrade("st", 23)},
         },
         23: {
             title: "Grinded.",
@@ -1125,6 +1158,12 @@ addLayer("st", {
             description: "Double iron, steel, and coal.",
             cost: new Decimal("10"),
             unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14) || hasUpgrade("st", 21)} ,
+        },
+        31: {
+            title: "Magnetic Dirt",
+            description: "Unlock more dirt upgrades.",
+            cost: new Decimal("15"),
+            unlocked(){return hasUpgrade("st", 24)} ,
         },
     },
 })
