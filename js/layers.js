@@ -61,6 +61,7 @@ addLayer("d", {
             title: "Grass Seeds",
             description: "Double your grass gain.",
             cost: new Decimal(1),
+            unlocked() { return !hasUpgrade("co", 21) },   
         },
         12: {
             title: "Dirty Grass",
@@ -896,6 +897,41 @@ addLayer("i", {
                 player.i.upgrades = []; 
             },
         },
+        31: {
+            name: "Grassless",
+            challengeDescription: "x0.001 Grass. Resets absolutely everything (excluding side layers) up to steel/compost.",
+            goalDescription: "20 Coal",
+            canComplete: function() {return player.co.points.gte("20")},
+            rewardDescription: "Unlock fruits.",
+            unlocked() { return hasChallenge('i', 21) && hasUpgrade('st', 32) || inChallenge('i', 31) || hasChallenge('i', 31)}, 
+            onEnter() { 
+                player.points = new Decimal("0"); 
+                player.d.points = new Decimal("0"); 
+                player.d.upgrades = []; 
+                player.s.points = new Decimal("0"); 
+                player.s.upgrades = [];
+                player.c.points = new Decimal("0"); 
+                player.c.upgrades = []; 
+                player.sl.points = new Decimal("0"); 
+                player.sl.upgrades = []; 
+                player.sl.milestones = []; 
+                player.co.points = new Decimal("0"); 
+                player.co.upgrades = [];
+                player.t.points = new Decimal("0"); 
+                player.t.upgrades = []; 
+                player.g.points = new Decimal("0"); 
+                player.g.upgrades = []; 
+                player.g.milestones = []; 
+                player.i.points = new Decimal("0"); 
+                player.i.upgrades = []; 
+                player.i.challenges = []; 
+                player.st.points = new Decimal("0"); 
+                player.st.upgrades = []; 
+                player.cm.points = new Decimal("0"); 
+                player.cm.upgrades = []; 
+                player.cm.buyables = []; 
+            },
+        },
     }
 })
 addLayer("f", {
@@ -1144,7 +1180,7 @@ addLayer("st", {
         22: {
             title: "Compost Improvement",
             description: "Unlock another compost buyable.",
-            cost: new Decimal("3"),
+            cost: new Decimal("0"),
             unlocked(){return hasUpgrade("st", 21) || hasUpgrade("st", 23)},
         },
         23: {
@@ -1164,6 +1200,12 @@ addLayer("st", {
             description: "Unlock more dirt upgrades.",
             cost: new Decimal("15"),
             unlocked(){return hasUpgrade("st", 24)} ,
+        },
+        32: {
+            title: "Refined Iron",
+            description: "Unlock a new iron challenge.",
+            cost: new Decimal("20"),
+            unlocked(){return hasUpgrade("st", 31)} ,
         },
     },
 })
@@ -1308,7 +1350,7 @@ addLayer("te", {
         return new Decimal(1)
     },
     row: "side", // Row the layer is in on the tree (0 is the first row)
-    layerShown(){return !player.d.unlocked || player.te.unlocked},
+    layerShown(){return player.te.unlocked}, // !player.d.unlocked || 
 
     upgrades: {
         11: {
