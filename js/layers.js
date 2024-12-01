@@ -759,7 +759,7 @@ addLayer("i", {
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("i", keep)
     },
-    layerShown(){return hasMilestone('g', 3) || inChallenge('i', 11) || hasChallenge('i', 11)},
+    layerShown(){return hasMilestone('g', 3) || inChallenge('i', 11) || hasChallenge('i', 11) || inChallenge('i', 31) || hasChallenge('i', 31)},
 
     upgrades: {
         11: {
@@ -903,7 +903,7 @@ addLayer("i", {
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte("20")},
             rewardDescription: "Unlock fruits.",
-            unlocked() { return hasChallenge('i', 21) && hasUpgrade('st', 32) || inChallenge('i', 31) || hasChallenge('i', 31)}, 
+            unlocked() { return hasChallenge('i', 22) && hasUpgrade('st', 32) || inChallenge('i', 31) || hasChallenge('i', 31)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
                 player.d.points = new Decimal("0"); 
@@ -925,6 +925,8 @@ addLayer("i", {
                 player.i.points = new Decimal("0"); 
                 player.i.upgrades = []; 
                 player.i.challenges = []; 
+                player.f.points = new Decimal("0"); 
+                player.f.upgrades = []; 
                 player.st.points = new Decimal("0"); 
                 player.st.upgrades = []; 
                 player.cm.points = new Decimal("0"); 
