@@ -27,6 +27,7 @@ addLayer("d", {
         if (hasUpgrade('f', 13)) mult = mult.times(2)
         if (hasUpgrade('b', 11)) mult = mult.times(2)
         if (hasUpgrade('st', 12)) mult = mult.times(5)
+        if (hasUpgrade('st', 32)) mult = mult.times(upgradeEffect('st', 32))
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
         if (hasMilestone('g', 2)) mult = mult.times(4)
@@ -759,7 +760,7 @@ addLayer("i", {
         player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("i", keep)
     },
-    layerShown(){return hasMilestone('g', 3) || inChallenge('i', 11) || hasChallenge('i', 11) || inChallenge('i', 31) || hasChallenge('i', 31)},
+    layerShown(){return hasMilestone('g', 3) || inChallenge('i', 11) || hasChallenge('i', 11)},
 
     upgrades: {
         11: {
@@ -895,43 +896,6 @@ addLayer("i", {
                 player.g.milestones = []; 
                 player.i.points = new Decimal("0"); 
                 player.i.upgrades = []; 
-            },
-        },
-        31: {
-            name: "Grassless",
-            challengeDescription: "x0.001 Grass. Resets absolutely everything (excluding side layers) up to steel/compost.",
-            goalDescription: "20 Coal",
-            canComplete: function() {return player.co.points.gte("20")},
-            rewardDescription: "Unlock fruits.",
-            unlocked() { return hasChallenge('i', 22) && hasUpgrade('st', 32) || inChallenge('i', 31) || hasChallenge('i', 31)}, 
-            onEnter() { 
-                player.points = new Decimal("0"); 
-                player.d.points = new Decimal("0"); 
-                player.d.upgrades = []; 
-                player.s.points = new Decimal("0"); 
-                player.s.upgrades = [];
-                player.c.points = new Decimal("0"); 
-                player.c.upgrades = []; 
-                player.sl.points = new Decimal("0"); 
-                player.sl.upgrades = []; 
-                player.sl.milestones = []; 
-                player.co.points = new Decimal("0"); 
-                player.co.upgrades = [];
-                player.t.points = new Decimal("0"); 
-                player.t.upgrades = []; 
-                player.g.points = new Decimal("0"); 
-                player.g.upgrades = []; 
-                player.g.milestones = []; 
-                player.i.points = new Decimal("0"); 
-                player.i.upgrades = []; 
-                player.i.challenges = []; 
-                player.f.points = new Decimal("0"); 
-                player.f.upgrades = []; 
-                player.st.points = new Decimal("0"); 
-                player.st.upgrades = []; 
-                player.cm.points = new Decimal("0"); 
-                player.cm.upgrades = []; 
-                player.cm.buyables = []; 
             },
         },
     }
@@ -1198,15 +1162,19 @@ addLayer("st", {
             unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14) || hasUpgrade("st", 21)} ,
         },
         31: {
-            title: "Magnetic Dirt",
+            title: "Magnetic Dirt I",
             description: "Unlock more dirt upgrades.",
             cost: new Decimal("15"),
             unlocked(){return hasUpgrade("st", 24)} ,
         },
         32: {
-            title: "Refined Iron",
-            description: "Unlock a new iron challenge.",
+            title: "Magnetic Dirt II",
+            description: "Iron directly boosts dirt gain.",
             cost: new Decimal("20"),
+            effect() {
+                return player.i.points.add(1).pow(0.15)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
             unlocked(){return hasUpgrade("st", 31)} ,
         },
     },
