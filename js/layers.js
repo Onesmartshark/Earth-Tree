@@ -367,6 +367,7 @@ addLayer("sl", {
         if (layers[resettingLayer].row > this.row) layerDataReset("sl", keep)
     },
     resetsNothing() { return hasAchievement("a", 44) },
+    canBuyMax() { return hasChallenge("i", 11) },
     layerShown(){return player.s.unlocked && !inChallenge('i', 21)},
     milestones: {
         0: {
@@ -793,7 +794,7 @@ addLayer("i", {
             challengeDescription: "Hard reset but only glass and below",
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte(20)},
-            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed.",
+            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed. Unlock max buying of slate?!",
             unlocked() { return hasUpgrade("i", 11) || inChallenge('i', 11) || hasChallenge('i', 11)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
