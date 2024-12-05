@@ -30,7 +30,7 @@ addLayer("d", {
         if (hasUpgrade('st', 32)) mult = mult.times(upgradeEffect('st', 32))
         if (hasUpgrade('te', 12)) mult = mult.times(1000)
         if (hasMilestone('sl', 2)) mult = mult.times(2)
-        if (hasMilestone('g', 2)) mult = mult.times(4)
+        if (hasMilestone('g', 2) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) mult = mult.times(4)
         if (hasChallenge('i', 11) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(5)
         if (hasAchievement('a', 13)) mult = mult.times(1.25)
         if (getBuyableAmount('cm', 12).gt(0)) mult = mult.times(new Decimal(2).pow(getBuyableAmount('cm', 12)))
@@ -49,11 +49,11 @@ addLayer("d", {
         if (hasUpgrade("sl", 12) && resettingLayer=="s") keep.push("upgrades")
         if (hasUpgrade("sl", 13) && resettingLayer=="c") keep.push("upgrades")
         if (hasUpgrade("sl", 14) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="c") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="co") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="s") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="t") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="c") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="co") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="s") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("d", keep)
     },
     layerShown(){return true},
@@ -184,8 +184,8 @@ addLayer("s", {
         if (hasUpgrade('te', 13)) mult = mult.times(1000)
         if (hasMilestone('sl', 0)) mult = mult.times(2)
         if (hasMilestone('sl', 11)) mult = mult.times(3)
-        if (hasMilestone('g', 0)) mult = mult.times(2)
-        if (hasMilestone('g', 1)) mult = mult.times(3)
+        if (hasMilestone('g', 0) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) mult = mult.times(2)
+        if (hasMilestone('g', 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) mult = mult.times(3)
         if (hasChallenge('i', 11) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(4)
         if (hasAchievement('a', 23)) mult = mult.times(1.25)
         return mult
@@ -200,9 +200,9 @@ addLayer("s", {
     doReset(resettingLayer) {
         let keep = [];
         if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="co") keep.push("upgrades")
-        if (hasMilestone("g", 1) && resettingLayer=="t") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="co") keep.push("upgrades")
+        if (hasMilestone("g", 1) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="t") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("s", keep)
     },
     layerShown(){return player.d.unlocked},
@@ -293,7 +293,7 @@ addLayer("t", {
         if (hasUpgrade('te', 21)) mult = mult.times(1000)
         if (hasMilestone('sl', 7)) mult = mult.times(2)
         if (hasMilestone('sl', 9)) mult = mult.times(2)
-        if (hasMilestone('g', 3)) mult = mult.times(2)
+        if (hasMilestone('g', 3) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) mult = mult.times(2)
         if (hasChallenge('i', 12) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(3)
         if (hasAchievement('a', 51)) mult = mult.times(1.25)
         return mult
@@ -505,8 +505,7 @@ addLayer("c", {
         if (hasUpgrade('c', 12)) mult = mult.times(4)
         if (hasUpgrade('b', 13)) mult = mult.times(2)
         if (hasMilestone('sl', 1)) mult = mult.times(2)
-        if (hasMilestone('g', 2)) mult = mult.times(3)
-            
+        if (hasMilestone('g', 2) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) mult = mult.times(3)
         if (hasChallenge('i', 12) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(3)
         return mult
     },
@@ -520,9 +519,9 @@ addLayer("c", {
     doReset(resettingLayer) {
         let keep = [];
         if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
-        if (hasMilestone("g", 2) && resettingLayer=="co") keep.push("upgrades")
-        if (hasMilestone("g", 2) && resettingLayer=="t") keep.push("upgrades")
-        if (hasMilestone("g", 2) && resettingLayer=="sl") keep.push("upgrades")
+        if (hasMilestone("g", 2) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="co") keep.push("upgrades")
+        if (hasMilestone("g", 2) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="t") keep.push("upgrades")
+        if (hasMilestone("g", 2) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22) && resettingLayer=="sl") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("c", keep)
     },
     layerShown(){return player.d.unlocked && !inChallenge('i', 12)},
@@ -608,7 +607,7 @@ addLayer("co", {
         if (hasUpgrade('te', 14)) mult = mult.times(1000)
         if (hasMilestone('sl', 5)) mult = mult.times(2)
         if (hasMilestone('sl', 10)) mult = mult.times(2)
-        if (hasMilestone('g', 0)) mult = mult.times(2)
+        if (hasMilestone('g', 0) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) mult = mult.times(2)
         if (hasChallenge('i', 11) && !inChallenge("i", 11) && !inChallenge("i", 12) && !inChallenge("i", 21) && !inChallenge("i", 22)) mult = mult.times(2)
         if (hasAchievement('a', 34)) mult = mult.times(1.25)
         return mult
@@ -684,7 +683,7 @@ addLayer("g", {
     ],
     doReset(resettingLayer) {
         let keep = [];
-        if (!hasMilestone('g', 4)) player.sl.milestones = []; 
+        if (!hasMilestone('g', 4) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("g", keep)
     },
     layerShown(){return hasUpgrade("co", 13) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 21) },
@@ -791,10 +790,10 @@ addLayer("i", {
     challenges: {
         11: {
             name: "Starting",
-            challengeDescription: "Hard reset but only glass and below",
+            challengeDescription: "Hard reset but only trees and below",
             goalDescription: "20 Coal",
             canComplete: function() {return player.co.points.gte(20)},
-            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed. Unlock max buying of slate?!",
+            rewardDescription: "Triple Coal, Quadruple Stone, Quintuple Dirt. Iron & this challenge area visible as long as this challenge is entered/completed. Unlock max buying of slate?! (Also glass doesn't work in challenges)",
             unlocked() { return hasUpgrade("i", 11) || inChallenge('i', 11) || hasChallenge('i', 11)}, 
             onEnter() { 
                 player.points = new Decimal("0"); 
@@ -811,9 +810,6 @@ addLayer("i", {
                 player.co.upgrades = [];
                 player.t.points = new Decimal("0"); 
                 player.t.upgrades = []; 
-                player.g.points = new Decimal("0"); 
-                player.g.upgrades = []; 
-                player.g.milestones = []; 
             },
         },
         12: {
@@ -838,9 +834,6 @@ addLayer("i", {
                 player.co.upgrades = [];
                 player.t.points = new Decimal("0"); 
                 player.t.upgrades = []; 
-                player.g.points = new Decimal("0"); 
-                player.g.upgrades = []; 
-                player.g.milestones = []; 
             },
         },
         21: {
@@ -865,9 +858,6 @@ addLayer("i", {
                 player.co.upgrades = [];
                 player.t.points = new Decimal("0"); 
                 player.t.upgrades = []; 
-                player.g.points = new Decimal("0"); 
-                player.g.upgrades = []; 
-                player.g.milestones = []; 
             },
         },
         22: {
@@ -892,9 +882,6 @@ addLayer("i", {
                 player.co.upgrades = [];
                 player.t.points = new Decimal("0"); 
                 player.t.upgrades = []; 
-                player.g.points = new Decimal("0"); 
-                player.g.upgrades = []; 
-                player.g.milestones = []; 
                 player.i.points = new Decimal("0"); 
                 player.i.upgrades = []; 
             },

@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.10.4",
-	name: "Mini UPD 4 - QOL change (V10)",
+	num: "1.10.5",
+	name: "Mini UPD 5 - QOL change 2 (V10)",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -65,8 +65,8 @@ function getPointGen() {
 	if (hasMilestone('sl', 8)) gain = gain.times(2)
 	if (hasMilestone('sl', 9)) gain = gain.times(2)
 	if (hasMilestone('sl', 11)) gain = gain.times(3)
-	if (hasMilestone('g', 2)) gain = gain.times(4)
-	if (hasMilestone('g', 3)) gain = gain.times(4)
+	if (hasMilestone('g', 2) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) gain = gain.times(4)
+	if (hasMilestone('g', 3) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) gain = gain.times(4)
 	if (getBuyableAmount('cm', 11).gt(0)) gain = gain.times(new Decimal(2).pow(getBuyableAmount('cm', 11)))
 	return gain
 }
