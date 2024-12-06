@@ -1104,58 +1104,40 @@ addLayer("st", {
     upgrades: {
         11: {
             title: "Reinforcer",
-            description: "Unlock 4 (temporary) choice upgrades.",
+            description: "Unlock 3 (temporary) choice upgrades.",
             cost: new Decimal("0"),
         },
         12: {
             title: "Reinforced Dirt",
             description: "x5 Dirt. Lock out the others.",
             cost: new Decimal("1"),
-            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 13) && !hasUpgrade("st", 14) && !hasUpgrade("st", 21)},
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 13) && !hasUpgrade("st", 14)},
         },
         13: {
             title: "Reinforced Stone",
             description: "x4 Stone. Lock out the others.",
             cost: new Decimal("1"),
-            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 14) && !hasUpgrade("st", 21)},
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 14)},
         },
         14: {
             title: "Reinforced Grass",
             description: "x6 Grass. Lock out the others.",
             cost: new Decimal("1"),
-            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 13) && !hasUpgrade("st", 21)},
+            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 13)},
         },
         21: {
-            title: "None",
-            description: "No buffs, lock the others, but unlock something.",
-            cost: new Decimal("1"),
-            unlocked(){return hasUpgrade("st", 11) && !hasUpgrade("st", 12) && !hasUpgrade("st", 13) && !hasUpgrade("st", 14)},
-        },
-        22: {
-            title: "Compost Improvement",
-            description: "Unlock another compost buyable.",
-            cost: new Decimal("0"),
-            unlocked(){return hasUpgrade("st", 21) || hasUpgrade("st", 23)},
-        },
-        23: {
-            title: "Grinded.",
-            description: "Unlock another upgrade, at a big cost.",
-            cost: new Decimal("25"),
-            unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14)} ,
-        },
-        24: {
             title: "Molten",
             description: "Double iron, steel, and coal.",
             cost: new Decimal("10"),
-            unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14) || hasUpgrade("st", 21)} ,
+            unlocked(){return hasUpgrade("st", 12) || hasUpgrade("st", 13) || hasUpgrade("st", 14)},
         },
-        31: {
+        22: {
             title: "Magnetic Dirt I",
             description: "Unlock more dirt upgrades.",
             cost: new Decimal("15"),
-            unlocked(){return hasUpgrade("st", 24)} ,
+            unlocked(){return hasUpgrade("st", 21)},
         },
-        32: {
+        23: {
             title: "Magnetic Dirt II",
             description: "Iron directly boosts dirt gain.",
             cost: new Decimal("20"),
@@ -1163,7 +1145,13 @@ addLayer("st", {
                 return player.i.points.add(1).pow(0.15)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" }, // Add formatting to the effect
-            unlocked(){return hasUpgrade("st", 31)} ,
+            unlocked(){return hasUpgrade("st", 22)},
+        },
+        24: {
+            title: "Compost Improvement",
+            description: "Unlock another compost buyable.",
+            cost: new Decimal("25"),
+            unlocked(){return hasUpgrade("st", 23)},
         },
     },
 })
