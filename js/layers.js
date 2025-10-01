@@ -410,7 +410,7 @@ addLayer("sl", {
             requirementDescription: "8 Slate",
             unlocked() { return hasUpgrade("sl", 21) },
             done() { return player.sl.points.gte(8) && hasUpgrade("sl", 21) },
-            effectDescription: "Keep stone & clay upgrades on slate.",
+            effectDescription: "Keep stone & clay upgrades on slate. Unlock a new dirt upgrade.",
         },
         7: {
             requirementDescription: "9 Slate",
