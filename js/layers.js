@@ -347,7 +347,7 @@ addLayer("sl", {
     resource: "slate", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
-	branches: ["s  "],
+	branches: ["s"],
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
