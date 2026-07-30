@@ -164,6 +164,7 @@ addLayer("s", {
     resource: "stone", // Name of prestige currency
     baseResource: "dirt", // Name of resource prestige is based on
     baseAmount() {return player.d.points}, // Get the current amount of baseResource
+	branches: ["d"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -280,6 +281,7 @@ addLayer("t", {
     resource: "trees", // Name of prestige currency
     baseResource: "dirt", // Name of resource prestige is based on
     baseAmount() {return player.d.points}, // Get the current amount of baseResource
+	branches: ["d"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -345,6 +347,7 @@ addLayer("sl", {
     resource: "slate", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
+	branches: ["s  "],
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -496,6 +499,7 @@ addLayer("c", {
     resource: "clay", // Name of prestige currency
     baseResource: "dirt", // Name of resource prestige is based on
     baseAmount() {return player.d.points}, // Get the current amount of baseResource
+	branches: ["d"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -591,6 +595,7 @@ addLayer("co", {
     resource: "coal", // Name of prestige currency
     baseResource: "stone", // Name of resource prestige is based on
     baseAmount() {return player.s.points}, // Get the current amount of baseResource
+	branches: ["s"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -665,6 +670,7 @@ addLayer("g", {
     resource: "glass", // Name of prestige currency
     baseResource: "coal", // Name of resource prestige is based on
     baseAmount() {return player.co.points}, // Get the current amount of baseResource
+	branches: ["co"],
 
     
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -734,6 +740,7 @@ addLayer("i", {
     resource: "iron", // Name of prestige currency
     baseResource: "coal", // Name of resource prestige is based on
     baseAmount() {return player.co.points}, // Get the current amount of baseResource
+	branches: ["co"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -902,6 +909,7 @@ addLayer("f", {
     resource: "fruits", // Name of prestige currency
     baseResource: "trees", // Name of resource prestige is based on
     baseAmount() {return player.t.points}, // Get the current amount of baseResource
+	branches: ["t"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -965,6 +973,7 @@ addLayer("cm", {
     resource: "compost", // Name of prestige currency
     baseResource: "fruits", // Name of resource prestige is based on
     baseAmount() {return player.f.points}, // Get the current amount of baseResource
+	branches: ["f"],
 
     
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -1059,6 +1068,7 @@ addLayer("st", {
     resource: "steel", // Name of prestige currency
     baseResource: "iron", // Name of resource prestige is based on
     baseAmount() {return player.i.points}, // Get the current amount of baseResource
+	branches: ["i"],
 
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.5, // Prestige currency exponent
