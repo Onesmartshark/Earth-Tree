@@ -39,7 +39,7 @@ addLayer("d", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-	autoUpgrade() {return hasMilestone('sl', 4) && player.d.autoupg}, // blessings
+	autoUpgrade() {return (hasMilestone('sl', 4) || hasMilestone('g', 1)) && player.d.autoupg}, // blessings
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -199,6 +199,7 @@ addLayer("s", {
     hotkeys: [
         {key: "s", description: "S: Reset for Stone", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+	autoUpgrade() {return (hasMilestone('g', 2)) && player.s.autoupg}, // blessings
     doReset(resettingLayer) {
         let keep = [];
         if (hasMilestone('sl', 6) && resettingLayer=="sl") keep.push("upgrades")
@@ -368,6 +369,7 @@ addLayer("sl", {
         let keep = [];
         if (hasUpgrade('i', 11) && resettingLayer=="g") keep.push("upgrades")
         if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
+		if (hasUpgrade('i', 11) && resettingLayer=="i") keep.push("upgrades")
         if (layers[resettingLayer].row > this.row) layerDataReset("sl", keep)
     },
     resetsNothing() { return hasAchievement("a", 44) },
@@ -693,6 +695,7 @@ addLayer("g", {
         if (!hasMilestone('g', 4) && !inChallenge('i', 11) && !inChallenge('i', 12) && !inChallenge('i', 21) && !inChallenge('i', 22)) player.sl.milestones = []; 
         if (layers[resettingLayer].row > this.row) layerDataReset("g", keep)
     },
+	canBuyMax() {return hasUpgrade("st", 11) },
     layerShown(){return hasUpgrade("co", 13) && !inChallenge('i', 21) || player.g.unlocked && !inChallenge('i', 21) },
     milestones: {
         0: {
@@ -704,14 +707,16 @@ addLayer("g", {
         1: {
             requirementDescription: "2 Glass",
             done() { return player.g.points.gte(2) && player.s.unlocked && player.d.unlocked },
-            effectDescription: "Keep dirt & stone upgrades on all previous resets, and finally auto generate dirt.",
+            effectDescription: "Keep dirt & stone upgrades on all previous resets, and finally auto generate dirt. Also, you can get dirt autobuyer from here too.",
             unlocked() {return player.s.unlocked && player.d.unlocked },
+			toggles: [["d","autoupg"]],
         },
         2: {
             requirementDescription: "3 Glass",
             done() { return player.g.points.gte(3) && player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
-            effectDescription: "Keep clay upgrades on all previous resets, and triple stone & clay, while quadrupling grass & dirt, along with double coal.",
+            effectDescription: "Keep clay upgrades on all previous resets, and triple stone & clay, while quadrupling grass & dirt, along with double coal. Also, get stone autobuyer.",
             unlocked() {return player.s.unlocked && player.c.unlocked && player.co.unlocked && player.d.unlocked },
+			toggles: [["s","autoupg"]],
         },
         3: {
             requirementDescription: "4 Glass",
@@ -784,7 +789,7 @@ addLayer("i", {
         },
         13: {
             title: "2Saver",
-            description: "soon (unlocks a new upg tho)",
+            description: "soon (unlocks a new upg tho) (I forgor what this was originally supposed to do sorry)",
             cost: new Decimal(5),
             unlocked() { return hasUpgrade("i", 12) && hasChallenge("i", 21)}, 
         },
@@ -991,7 +996,7 @@ addLayer("cm", {
     },
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "c+m", description: "C+M: Reset for compost (broken)", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "m", description: "shift+M: Reset for compost", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
         let keep = [];
@@ -1008,8 +1013,8 @@ addLayer("cm", {
         player.co.upgrades = []; 
         player.t.points = new Decimal("0"); 
         player.t.upgrades = []; 
-        player.g.points = new Decimal("0"); 
-        player.g.milestones = []; 
+        if !hasUpgrade("i", 22) player.g.points = new Decimal("0");
+		if !hasUpgrade("i", 22) player.g.milestones = [];
         player.i.points = new Decimal("0"); 
         player.i.upgrades = []; 
         player.i.challenges = []; 
@@ -1085,7 +1090,7 @@ addLayer("st", {
     },
     row: 4, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
-        {key: "s+t", description: "S+T: Reset for steel (broken)", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "T", description: "shift+T: Reset for steel", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     doReset(resettingLayer) {
         let keep = [];
@@ -1102,8 +1107,8 @@ addLayer("st", {
         player.co.upgrades = []; 
         player.t.points = new Decimal("0"); 
         player.t.upgrades = []; 
-        player.g.points = new Decimal("0"); 
-        player.g.milestones = []; 
+        if !hasUpgrade("i", 22) player.g.points = new Decimal("0");
+		if !hasUpgrade("i", 22) player.g.milestones = [];
         player.i.points = new Decimal("0"); 
         player.i.upgrades = []; 
         player.i.challenges = []; 
@@ -1115,7 +1120,7 @@ addLayer("st", {
     upgrades: {
         11: {
             title: "Reinforcer",
-            description: "Unlock 3 (temporary) choice upgrades.",
+            description: "Unlock 3 (temporary) choice upgrades, and obtain max buy glass.",
             cost: new Decimal("0"),
         },
         12: {
@@ -1144,7 +1149,7 @@ addLayer("st", {
         },
         22: {
             title: "Magnetic Dirt I",
-            description: "Unlock more dirt upgrades.",
+            description: "Unlock more dirt upgrades, and keep glass on row 4 resets.",
             cost: new Decimal("15"),
             unlocked(){return hasUpgrade("st", 21)},
         },
