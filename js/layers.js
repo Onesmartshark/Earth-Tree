@@ -39,6 +39,7 @@ addLayer("d", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+	autoUpgrade() {return hasMilestone('sl', 4) && player.d.autoupg}, // blessings
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "d", description: "D: Reset for dirt", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -399,9 +400,9 @@ addLayer("sl", {
         4: {
             requirementDescription: "5 Slate",
             done() { return player.sl.points.gte(5) && player.co.unlocked },
-            effectDescription: "Unlock coal upgrades.",
+            effectDescription: "Unlock coal upgrades, and the supreme dirt autobuyer.",
             unlocked() {return player.co.unlocked},
-            
+            toggles: [["d","autoupg"]],
         },
         5: {
             requirementDescription: "6 Slate",
