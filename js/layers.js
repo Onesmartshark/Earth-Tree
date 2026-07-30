@@ -1013,8 +1013,8 @@ addLayer("cm", {
         player.co.upgrades = []; 
         player.t.points = new Decimal("0"); 
         player.t.upgrades = []; 
-        if !hasUpgrade("i", 22) player.g.points = new Decimal("0");
-		if !hasUpgrade("i", 22) player.g.milestones = [];
+       	player.g.points = new Decimal("0");
+		player.g.milestones = [];    
         player.i.points = new Decimal("0"); 
         player.i.upgrades = []; 
         player.i.challenges = []; 
@@ -1107,8 +1107,8 @@ addLayer("st", {
         player.co.upgrades = []; 
         player.t.points = new Decimal("0"); 
         player.t.upgrades = []; 
-        if !hasUpgrade("i", 22) player.g.points = new Decimal("0");
-		if !hasUpgrade("i", 22) player.g.milestones = [];
+        player.g.points = new Decimal("0");
+		player.g.milestones = [];
         player.i.points = new Decimal("0"); 
         player.i.upgrades = []; 
         player.i.challenges = []; 
@@ -1149,7 +1149,7 @@ addLayer("st", {
         },
         22: {
             title: "Magnetic Dirt I",
-            description: "Unlock more dirt upgrades, and keep glass on row 4 resets.",
+            description: "Unlock more dirt upgrades.",
             cost: new Decimal("15"),
             unlocked(){return hasUpgrade("st", 21)},
         },
